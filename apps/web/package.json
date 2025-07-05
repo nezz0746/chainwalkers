@@ -12,9 +12,13 @@
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
+    "@tanstack/react-query": "^5.81.5",
+    "connectkit": "^1.9.1",
     "next": "^15.3.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "viem": "2.x",
+    "wagmi": "^2.15.6"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
