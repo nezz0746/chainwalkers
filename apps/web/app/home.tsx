@@ -244,10 +244,17 @@ export default function Home() {
                           <p className="text-xs text-black">{growthRate}</p>
                         </div>
                         {biomePlayers.length > 0 && (
-                          <div className="absolute bottom-0 left-0 w-full h-full flex flex-col gap-2 items-center justify-center">
-                            <p className="text-xs text-black">
-                              {biomePlayers.length}
-                            </p>
+                          <div className=" flex flex-col p-2 gap-2 items-center justify-center">
+                            {biomePlayers.map((p) => (
+                              <div className="flex flex-row gap-2 items-center justify-center">
+                                <p className="text-xs text-black">
+                                  {truncateAddress(p.id)}
+                                </p>
+                                <p className="text-xs text-black">
+                                  {p.currentPopulation}
+                                </p>
+                              </div>
+                            ))}
                           </div>
                         )}
                         {isSelected && (
