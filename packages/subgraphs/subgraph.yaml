@@ -1,0 +1,44 @@
+specVersion: 1.3.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ChainWalkerWorld
+    network: optimism
+    source:
+      address: "0xD3687dD56A92cFF031E086B6537aAA2905EAcb7d"
+      abi: ChainWalkerWorld
+      startBlock: 138065718
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - BiomeRange
+        - EnforcedOptionSet
+        - HelpReceived
+        - HelpSent
+        - OwnershipTransferred
+        - PeerSet
+        - Traveled
+      abis:
+        - name: ChainWalkerWorld
+          file: ./abis/ChainWalkerWorld.json
+      eventHandlers:
+        - event: BiomeRange(indexed uint256,(int16)[])
+          handler: handleBiomeRange
+        - event: EnforcedOptionSet((uint32,uint16,bytes)[])
+          handler: handleEnforcedOptionSet
+        - event: HelpReceived(indexed uint256,indexed int16)
+          handler: handleHelpReceived
+        - event: HelpSent(indexed address,(uint256,uint256,uint256))
+          handler: handleHelpSent
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: PeerSet(uint32,bytes32)
+          handler: handlePeerSet
+        - event: Traveled(indexed address,(uint256,uint256,uint256))
+          handler: handleTraveled
+      file: ./src/chain-walker-world.ts

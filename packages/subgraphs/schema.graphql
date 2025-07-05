@@ -1,0 +1,65 @@
+type BiomeRange @entity(immutable: true) {
+  id: Bytes!
+  startIndex: BigInt! # uint256
+  biomes: [Bytes!]! # tuple[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type EnforcedOptionSet @entity(immutable: true) {
+  id: Bytes!
+  _enforcedOptions: [Bytes!]! # tuple[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type HelpReceived @entity(immutable: true) {
+  id: Bytes!
+  biomePosition: BigInt! # uint256
+  newGrowthRate: Int! # int16
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type HelpSent @entity(immutable: true) {
+  id: Bytes!
+  player: Bytes! # address
+  tribe_position: BigInt! # uint256
+  tribe_population: BigInt! # uint256
+  tribe_timeOfLastMove: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PeerSet @entity(immutable: true) {
+  id: Bytes!
+  eid: BigInt! # uint32
+  peer: Bytes! # bytes32
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Traveled @entity(immutable: true) {
+  id: Bytes!
+  player: Bytes! # address
+  tribe_position: BigInt! # uint256
+  tribe_population: BigInt! # uint256
+  tribe_timeOfLastMove: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
