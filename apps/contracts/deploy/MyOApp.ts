@@ -45,10 +45,11 @@ const deploy: DeployFunction = async (hre) => {
     // }
     const endpointV2Deployment = await hre.deployments.get('EndpointV2')
     const chainId = await hre.getChainId()
+
     // @ts-ignore
     const biomes = worlds[chainId]?.biomes || []
 
-    console.log({ chainId, biomes })
+    console.log({ chainId, biomes: biomes.map((b: { growthRate: number }) => b.growthRate) })
 
     if (!biomes || biomes.length === 0) {
         throw new Error('No biomes found for chainId: ' + chainId)

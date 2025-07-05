@@ -8,9 +8,9 @@ dataSources:
     name: ChainWalkerWorld
     network: optimism
     source:
-      address: "0xD3687dD56A92cFF031E086B6537aAA2905EAcb7d"
+      address: "0xFB3A3B8D93Dc2724cF54300f2ae027c37d2A71a2"
       abi: ChainWalkerWorld
-      startBlock: 138065718
+      startBlock: 138076187
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9

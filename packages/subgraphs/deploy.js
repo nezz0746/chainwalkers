@@ -14,16 +14,16 @@ const main = async () => {
   // Loop over an array and deploy a subgraph for each network
   let networks = [
     {
-      startBlock: 32470433,
-      contractAddress: "0x39CdE2092a28e0A1Fc9b1A0217108cf6170E01eE",
+      startBlock: 32480903,
+      contractAddress: "0xf87e378AAb32D9c58970A8A358F7670E9F09b7b8",
       network: "base",
       graphName: "cww-base",
       chainId: 8453,
       deployKey: "1lJ0qXT0uMeXH",
     },
     {
-      startBlock: 138065718,
-      contractAddress: "0xD3687dD56A92cFF031E086B6537aAA2905EAcb7d",
+      startBlock: 138076187,
+      contractAddress: "0xFB3A3B8D93Dc2724cF54300f2ae027c37d2A71a2",
       network: "optimism",
       graphName: "cww-opt",
       chainId: 10,

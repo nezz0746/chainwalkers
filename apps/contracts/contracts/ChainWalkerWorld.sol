@@ -34,6 +34,14 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
     /// @param _owner    The address permitted to configure this OApp
     /// @param _worldmap      The map of biomes
     constructor(address _endpoint, address _owner, Biome[] memory _worldmap) OApp(_endpoint, _owner) Ownable(_owner) {
+        _updateBiome(_worldmap);
+    }
+
+    function updateBiome(Biome[] memory _worldmap) public onlyOwner {
+        _updateBiome(_worldmap);
+    }
+
+    function _updateBiome(Biome[] memory _worldmap) internal {
         // Copy biomes from memory to storage one by one
         for (uint256 i = 0; i < _worldmap.length; i++) {
             worldmap.push(_worldmap[i]);
