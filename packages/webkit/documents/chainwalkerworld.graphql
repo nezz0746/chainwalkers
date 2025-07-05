@@ -1,0 +1,283 @@
+query biomeRange($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  biomeRange(id: $id, block: $block, subgraphError: $subgraphError) {
+    id
+    startIndex
+    biomes
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query biomeRanges($skip: Int, $first: Int, $orderBy: BiomeRange_orderBy, $orderDirection: OrderDirection, $where: BiomeRange_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  biomeRanges(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+    subgraphError: $subgraphError
+  ) {
+    id
+    startIndex
+    biomes
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query enforcedOptionSet($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  enforcedOptionSet(id: $id, block: $block, subgraphError: $subgraphError) {
+    id
+    _enforcedOptions
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query enforcedOptionSets($skip: Int, $first: Int, $orderBy: EnforcedOptionSet_orderBy, $orderDirection: OrderDirection, $where: EnforcedOptionSet_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  enforcedOptionSets(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+    subgraphError: $subgraphError
+  ) {
+    id
+    _enforcedOptions
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query helpReceived($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  helpReceived(id: $id, block: $block, subgraphError: $subgraphError) {
+    id
+    biomePosition
+    newGrowthRate
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query helpReceiveds($skip: Int, $first: Int, $orderBy: HelpReceived_orderBy, $orderDirection: OrderDirection, $where: HelpReceived_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  helpReceiveds(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+    subgraphError: $subgraphError
+  ) {
+    id
+    biomePosition
+    newGrowthRate
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query helpSent($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  helpSent(id: $id, block: $block, subgraphError: $subgraphError) {
+    id
+    player
+    tribe_position
+    tribe_population
+    tribe_timeOfLastMove
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query helpSents($skip: Int, $first: Int, $orderBy: HelpSent_orderBy, $orderDirection: OrderDirection, $where: HelpSent_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  helpSents(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+    subgraphError: $subgraphError
+  ) {
+    id
+    player
+    tribe_position
+    tribe_population
+    tribe_timeOfLastMove
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query ownershipTransferred($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  ownershipTransferred(id: $id, block: $block, subgraphError: $subgraphError) {
+    id
+    previousOwner
+    newOwner
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query ownershipTransferreds($skip: Int, $first: Int, $orderBy: OwnershipTransferred_orderBy, $orderDirection: OrderDirection, $where: OwnershipTransferred_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  ownershipTransferreds(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+    subgraphError: $subgraphError
+  ) {
+    id
+    previousOwner
+    newOwner
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query peerSet($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  peerSet(id: $id, block: $block, subgraphError: $subgraphError) {
+    id
+    eid
+    peer
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query peerSets($skip: Int, $first: Int, $orderBy: PeerSet_orderBy, $orderDirection: OrderDirection, $where: PeerSet_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  peerSets(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+    subgraphError: $subgraphError
+  ) {
+    id
+    eid
+    peer
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query traveled($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  traveled(id: $id, block: $block, subgraphError: $subgraphError) {
+    id
+    player
+    tribe_position
+    tribe_population
+    tribe_timeOfLastMove
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query traveleds($skip: Int, $first: Int, $orderBy: Traveled_orderBy, $orderDirection: OrderDirection, $where: Traveled_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  traveleds(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+    subgraphError: $subgraphError
+  ) {
+    id
+    player
+    tribe_position
+    tribe_population
+    tribe_timeOfLastMove
+    blockNumber
+    blockTimestamp
+    transactionHash
+  }
+}query player($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  player(id: $id, block: $block, subgraphError: $subgraphError) {
+    id
+    currentPosition
+    currentPopulation
+    timeOfLastMove
+    totalMoves
+    totalHelpSent
+    firstSeen
+    lastUpdated
+  }
+}query players($skip: Int, $first: Int, $orderBy: Player_orderBy, $orderDirection: OrderDirection, $where: Player_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  players(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+    subgraphError: $subgraphError
+  ) {
+    id
+    currentPosition
+    currentPopulation
+    timeOfLastMove
+    totalMoves
+    totalHelpSent
+    firstSeen
+    lastUpdated
+  }
+}query world($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $world_biomes_skip: Int, $world_biomes_first: Int, $world_biomes_orderBy: Biome_orderBy, $world_biomes_orderDirection: OrderDirection, $world_biomes_where: Biome_filter) {
+  world(id: $id, block: $block, subgraphError: $subgraphError) {
+    id
+    biomes(
+      skip: $world_biomes_skip
+      first: $world_biomes_first
+      orderBy: $world_biomes_orderBy
+      orderDirection: $world_biomes_orderDirection
+      where: $world_biomes_where
+    ) {
+      id
+      index
+      growthRate
+    }
+  }
+}query worlds($skip: Int, $first: Int, $orderBy: World_orderBy, $orderDirection: OrderDirection, $where: World_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $worlds_biomes_skip: Int, $worlds_biomes_first: Int, $worlds_biomes_orderBy: Biome_orderBy, $worlds_biomes_orderDirection: OrderDirection, $worlds_biomes_where: Biome_filter) {
+  worlds(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+    subgraphError: $subgraphError
+  ) {
+    id
+    biomes(
+      skip: $worlds_biomes_skip
+      first: $worlds_biomes_first
+      orderBy: $worlds_biomes_orderBy
+      orderDirection: $worlds_biomes_orderDirection
+      where: $worlds_biomes_where
+    ) {
+      id
+      index
+      growthRate
+    }
+  }
+}query biome($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  biome(id: $id, block: $block, subgraphError: $subgraphError) {
+    id
+    index
+    growthRate
+    world {
+      id
+    }
+  }
+}query biomes($skip: Int, $first: Int, $orderBy: Biome_orderBy, $orderDirection: OrderDirection, $where: Biome_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+  biomes(
+    skip: $skip
+    first: $first
+    orderBy: $orderBy
+    orderDirection: $orderDirection
+    where: $where
+    block: $block
+    subgraphError: $subgraphError
+  ) {
+    id
+    index
+    growthRate
+    world {
+      id
+    }
+  }
+}
