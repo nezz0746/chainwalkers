@@ -4,8 +4,23 @@ pragma solidity ^0.8.22;
 import { OApp, Origin, MessagingFee } from "@layerzerolabs/oapp-evm/contracts/oapp/OApp.sol";
 import { OAppOptionsType3 } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+import { Population } from "./Population.sol";
 
-contract MyOApp is OApp, OAppOptionsType3 {
+struct Tribe {
+    uint256 position;
+    uint256 populationAfterMove;
+    uint256 timeOfLastMove;
+}
+
+struct Biome {
+    int16 lifeRate;
+}
+
+contract MyOApp is OApp, OAppOptionsType3, Population {
+    mapping(address => Tribe) public tribes;
+
+    Biome[] public map;
+
     /// @notice Last string received from any remote chain
     string public lastMessage;
 
@@ -116,5 +131,41 @@ contract MyOApp is OApp, OAppOptionsType3 {
         // 3. (Optional) Trigger further on-chain actions.
         //    e.g., emit an event, mint tokens, call another contract, etc.
         //    emit MessageReceived(_origin.srcEid, _string);
+    }
+
+    function _isAlive(address player) public view returns (bool) {
+        return
+            _computePopulationOverTime(
+                100_000,
+                tribes[player].populationAfterMove,
+                int256(map[tribes[player].position].lifeRate),
+                block.timestamp - tribes[player].timeOfLastMove
+            ) > 0;
+    }
+
+    function start(address player) public {
+        require(!_isAlive(player), "Player is already alive");
+
+        tribes[player].position = 0;
+        tribes[player].timeOfLastMove = block.timestamp;
+        tribes[player].populationAfterMove = 100;
+    }
+
+    function computePopulationAfterMove(address player, uint256 newPosition) public view returns (uint256) {
+        return _computeMovingPopulation(tribes[player].populationAfterMove, newPosition - tribes[player].position);
+    }
+
+    function move(address player, uint256 newPosition) public {
+        require(
+            newPosition > tribes[player].position,
+            "Cannot move to a position less or equal to the current position"
+        );
+
+        tribes[player].position = newPosition;
+        tribes[player].timeOfLastMove = block.timestamp;
+        tribes[player].populationAfterMove = _computeMovingPopulation(
+            tribes[player].populationAfterMove,
+            newPosition - tribes[player].position
+        );
     }
 }
