@@ -17,11 +17,11 @@ type Biome = {
   // lifeRate: a number between -100 and 100 which represent the rate at which a popultaion is growing per year.
   lifeRate: number;
   length: number;
+  positions: [number, number];
 };
 
 class UniverseCreator {
   private worlds: Record<number, World> = {};
-  private currentBiomeIndex = 0;
 
   generate(): Universe {
     const chainIds = [1, 2];
@@ -29,7 +29,8 @@ class UniverseCreator {
 
     // Reset state
     this.worlds = {};
-    this.currentBiomeIndex = 0;
+    let currentBiomeIndex = 0;
+    let currentLength = 0;
 
     // Each world gets ~100 biomes with slight variation
     const biomeCounts = [98, 100]; // Slight variation between worlds
@@ -47,7 +48,7 @@ class UniverseCreator {
 
     // Generate biomes layer by layer to ensure cooperation at each level
     for (let biomeIndex = 0; biomeIndex < maxBiomes; biomeIndex++) {
-      this.currentBiomeIndex = biomeIndex;
+      currentBiomeIndex = biomeIndex;
 
       // Create biomes for all worlds at this level
       for (let worldIndex = 0; worldIndex < chainIds.length; worldIndex++) {
@@ -67,9 +68,11 @@ class UniverseCreator {
             chainId,
             worldIndex,
             biomeIndex,
-            worldBiomeLengths[chainId]
+            worldBiomeLengths[chainId],
+            currentLength
           );
           this.worlds[chainId].biomes.push(biome);
+          currentLength += biome.length;
         }
       }
     }
@@ -168,7 +171,8 @@ class UniverseCreator {
     chainId: number,
     worldIndex: number,
     biomeIndex: number,
-    biomeLengths: number[]
+    biomeLengths: number[],
+    startLength: number
   ): Biome {
     const length = biomeLengths[biomeIndex];
     const lifeRate = this.calculateLifeRate(chainId, worldIndex, biomeIndex);
@@ -176,6 +180,7 @@ class UniverseCreator {
     return {
       lifeRate,
       length,
+      positions: [startLength, startLength + length],
     };
   }
 
