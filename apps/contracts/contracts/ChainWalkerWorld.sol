@@ -8,7 +8,7 @@ import { Population } from "./Population.sol";
 
 struct Tribe {
     uint256 position;
-    uint256 populationAfterMove;
+    uint256 population;
     uint256 timeOfLastMove;
 }
 
@@ -18,6 +18,9 @@ struct Biome {
 
 contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
     mapping(address => Tribe) public tribes;
+
+    event Traveled(address indexed player, Tribe tribe);
+    event Helped(address indexed player, Tribe tribe);
 
     Biome[] public worldmap;
 
@@ -90,6 +93,11 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
             MessagingFee(msg.value, 0),
             payable(msg.sender)
         );
+
+        // Thank you for your sacrifice
+        tribes[player].population = tribes[player].population / 2;
+
+        emit Helped(player, tribes[player]);
     }
 
     // ──────────────────────────────────────────────────────────────────────────────
@@ -126,7 +134,7 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
         return
             _computePopulationOverTime(
                 100_000,
-                tribes[player].populationAfterMove,
+                tribes[player].population,
                 int256(worldmap[tribes[player].position].growthRate),
                 block.timestamp - tribes[player].timeOfLastMove
             ) > 0;
@@ -137,11 +145,13 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
 
         tribes[player].position = 0;
         tribes[player].timeOfLastMove = block.timestamp;
-        tribes[player].populationAfterMove = 100;
+        tribes[player].population = 100;
+
+        emit Traveled(player, tribes[player]);
     }
 
     function computePopulationAfterMove(address player, uint256 newPosition) public view returns (uint256) {
-        return _computeMovingPopulation(tribes[player].populationAfterMove, newPosition - tribes[player].position);
+        return _computeMovingPopulation(tribes[player].population, newPosition - tribes[player].position);
     }
 
     function move(address player, uint256 newPosition) public {
@@ -152,10 +162,12 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
 
         tribes[player].position = newPosition;
         tribes[player].timeOfLastMove = block.timestamp;
-        tribes[player].populationAfterMove = _computeMovingPopulation(
-            tribes[player].populationAfterMove,
+        tribes[player].population = _computeMovingPopulation(
+            tribes[player].population,
             newPosition - tribes[player].position
         );
+
+        emit Traveled(player, tribes[player]);
     }
 
     function _getEncodedHelpMessage(address player) internal view returns (bytes memory) {
