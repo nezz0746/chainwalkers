@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 // MyOApp imports
-import { MyOApp, MessagingFee } from "../../contracts/MyOApp.sol";
+import { ChainWalkerWorld, MessagingFee } from "../../contracts/ChainWalkerWorld.sol";
 
 // OApp imports
 import { IOAppOptionsType3, EnforcedOptionParam } from "@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol";
@@ -37,8 +37,8 @@ contract MyOAppTest is TestHelperOz5 {
     uint32 private aEid = 1;
     uint32 private bEid = 2;
 
-    MyOApp private aOApp;
-    MyOApp private bOApp;
+    ChainWalkerWorld private aOApp;
+    ChainWalkerWorld private bOApp;
 
     address private userA = address(0x1);
     address private userB = address(0x2);
@@ -53,9 +53,13 @@ contract MyOAppTest is TestHelperOz5 {
         super.setUp();
         setUpEndpoints(2, LibraryType.UltraLightNode);
 
-        aOApp = MyOApp(_deployOApp(type(MyOApp).creationCode, abi.encode(address(endpoints[aEid]), address(this))));
+        aOApp = ChainWalkerWorld(
+            _deployOApp(type(ChainWalkerWorld).creationCode, abi.encode(address(endpoints[aEid]), address(this)))
+        );
 
-        bOApp = MyOApp(_deployOApp(type(MyOApp).creationCode, abi.encode(address(endpoints[bEid]), address(this))));
+        bOApp = ChainWalkerWorld(
+            _deployOApp(type(ChainWalkerWorld).creationCode, abi.encode(address(endpoints[bEid]), address(this)))
+        );
 
         address[] memory oapps = new address[](2);
         oapps[0] = address(aOApp);
@@ -72,22 +76,6 @@ contract MyOAppTest is TestHelperOz5 {
 
         assertEq(address(aOApp.endpoint()), address(endpoints[aEid]));
         assertEq(address(bOApp.endpoint()), address(endpoints[bEid]));
-    }
-
-    function test_send_string() public {
-        bytes memory options = OptionsBuilder.newOptions().addExecutorLzReceiveOption(200000, 0);
-        string memory message = "Hello, World!";
-        MessagingFee memory fee = aOApp.quoteSendString(bEid, message, options, false);
-
-        assertEq(aOApp.lastMessage(), "");
-        assertEq(bOApp.lastMessage(), "");
-
-        vm.prank(userA);
-        aOApp.sendString{ value: fee.nativeFee }(bEid, message, options);
-        verifyPackets(bEid, addressToBytes32(address(bOApp)));
-
-        assertEq(aOApp.lastMessage(), "");
-        assertEq(bOApp.lastMessage(), message);
     }
 
     function testLinearPopulation() public {
