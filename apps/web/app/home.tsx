@@ -28,6 +28,7 @@ import {
 import useWaitForTransactionSuccess from "../src/hooks/useTransactionSucess";
 import { hexToBigInt } from "viem";
 import { truncateAddress } from "@/lib/utils";
+import { UserIcon, UsersIcon } from "lucide-react";
 
 const growingColor = "#0eeeee";
 const declineColor = "#ff0000";
@@ -242,15 +243,18 @@ export default function Home() {
                           <p className="text-xs text-black">{growthRate}</p>
                         </div>
                         {biomePlayers.length > 0 && (
-                          <div className=" flex flex-col p-2 gap-2 items-center justify-center">
+                          <div className=" flex flex-col py-4 p-2 gap-2 items-center justify-center">
                             {biomePlayers.map((p) => (
                               <div className="flex flex-row gap-2 items-center justify-center">
                                 <p className="text-xs text-black">
                                   {truncateAddress(p.id)}
                                 </p>
-                                <p className="text-xs text-black">
-                                  {p.currentPopulation}
-                                </p>
+                                <div className="flex flex-row gap-2 items-center justify-center border border-black/10 rounded-sm bg-white/30 p-1">
+                                  <UsersIcon className="w-4 h-4" />
+                                  <p className="text-xs text-black">
+                                    {p.currentPopulation}
+                                  </p>
+                                </div>
                               </div>
                             ))}
                           </div>
