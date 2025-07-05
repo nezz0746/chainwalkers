@@ -20,7 +20,9 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
     mapping(address => Tribe) public tribes;
 
     event Traveled(address indexed player, Tribe tribe);
-    event Helped(address indexed player, Tribe tribe);
+    event HelpSent(address indexed player, Tribe tribe);
+    event HelpReceived(uint256 indexed biomePosition, int16 indexed newGrowthRate);
+    event BiomeRange(uint256 indexed startIndex, Biome[] biomes);
 
     Biome[] public worldmap;
 
@@ -35,6 +37,21 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
         // Copy biomes from memory to storage one by one
         for (uint256 i = 0; i < _worldmap.length; i++) {
             worldmap.push(_worldmap[i]);
+        }
+
+        // Emit worldmap in chunks of 50 biomes
+        uint256 chunkSize = 50;
+        for (uint256 i = 0; i < _worldmap.length; i += chunkSize) {
+            uint256 end = i + chunkSize > _worldmap.length ? _worldmap.length : i + chunkSize;
+            uint256 currentChunkSize = end - i;
+
+            // Create chunk array
+            Biome[] memory chunk = new Biome[](currentChunkSize);
+            for (uint256 j = 0; j < currentChunkSize; j++) {
+                chunk[j] = _worldmap[i + j];
+            }
+
+            emit BiomeRange(i, chunk);
         }
     }
 
@@ -97,7 +114,7 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
         // Thank you for your sacrifice
         tribes[player].population = tribes[player].population / 2;
 
-        emit Helped(player, tribes[player]);
+        emit HelpSent(player, tribes[player]);
     }
 
     // ──────────────────────────────────────────────────────────────────────────────
@@ -180,5 +197,7 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
 
     function _processHelpMessage(uint256 position) internal {
         worldmap[position].growthRate += 5;
+
+        emit HelpReceived(position, worldmap[position].growthRate);
     }
 }
