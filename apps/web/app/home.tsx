@@ -23,7 +23,7 @@ interface UniverseData {
 export default function Home() {
   const [player1Position, setPlayer1Position] = useState(0); // Position from 0 to 199
   const [player2Position, setPlayer2Position] = useState(0); // Position from 0 to 199
-  const [squareSize, setSquareSize] = useState(60);
+  const [squareSize, setSquareSize] = useState(80);
   const [hoveredSquare, setHoveredSquare] = useState<{ lane: number, position: number } | null>(null);
   const [universeData, setUniverseData] = useState<UniverseData | null>(null);
   const dualLanesRef = useRef<HTMLDivElement>(null);
@@ -69,11 +69,11 @@ export default function Home() {
     const updateSquareSize = () => {
       if (typeof window !== 'undefined') {
         if (window.innerWidth <= 480) {
-          setSquareSize(40);
-        } else if (window.innerWidth <= 768) {
           setSquareSize(50);
+        } else if (window.innerWidth <= 768) {
+          setSquareSize(65);
         } else {
-          setSquareSize(60);
+          setSquareSize(80);
         }
       }
     };
@@ -158,6 +158,7 @@ export default function Home() {
     return Array.from({ length: universeData.length }, (_, index) => {
       const biome = worldData.biomes[index];
       const growthRate = biome?.growthRate || 0;
+      const isDangerous = growthRate < 0;
 
       return (
         <div
@@ -167,6 +168,11 @@ export default function Home() {
             backgroundColor: getBiomeColor(growthRate),
             border: '1px solid #999',
             color: growthRate > 0 ? '#0a4d0a' : growthRate < 0 ? '#4d0a0a' : '#333',
+            backgroundImage: isDangerous ? 'url(/assets/images/backyard_grass_3.png)' : 'none',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundBlendMode: 'multiply',
+            opacity: isDangerous ? 0.9 : 1,
           }}
           onClick={() => handleSquareClick(laneNumber, index)}
           onMouseEnter={() => handleSquareMouseEnter(laneNumber, index)}
@@ -211,20 +217,28 @@ export default function Home() {
                 <div
                   className={styles.ghostPlayer}
                   style={{
-                    left: `${hoveredSquare.position * squareSize + squareSize / 2 - 12}px`,
+                    left: `${hoveredSquare.position * squareSize + squareSize / 2 - 30}px`,
                   }}
                 >
-                  🚀
+                  <img
+                    src="/assets/images/player_100.png"
+                    alt="Player 1 Ghost"
+                    className={styles.playerImage}
+                  />
                 </div>
               )}
               {/* Player 1 */}
               <div
                 className={styles.player}
                 style={{
-                  left: `${player1Position * squareSize + squareSize / 2 - 12}px`,
+                  left: `${player1Position * squareSize + squareSize / 2 - 30}px`,
                 }}
               >
-                🚀
+                <img
+                  src="/assets/images/player_100.png"
+                  alt="Player 1"
+                  className={styles.playerImage}
+                />
               </div>
             </div>
           </div>
@@ -238,20 +252,28 @@ export default function Home() {
                 <div
                   className={styles.ghostPlayer}
                   style={{
-                    left: `${hoveredSquare.position * squareSize + squareSize / 2 - 12}px`,
+                    left: `${hoveredSquare.position * squareSize + squareSize / 2 - 30}px`,
                   }}
                 >
-                  🛸
+                  <img
+                    src="/assets/images/player_100.png"
+                    alt="Player 2 Ghost"
+                    className={styles.playerImage}
+                  />
                 </div>
               )}
               {/* Player 2 */}
               <div
                 className={styles.player}
                 style={{
-                  left: `${player2Position * squareSize + squareSize / 2 - 12}px`,
+                  left: `${player2Position * squareSize + squareSize / 2 - 30}px`,
                 }}
               >
-                🛸
+                <img
+                  src="/assets/images/player_100.png"
+                  alt="Player 2"
+                  className={styles.playerImage}
+                />
               </div>
             </div>
           </div>
