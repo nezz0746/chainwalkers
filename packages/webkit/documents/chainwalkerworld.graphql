@@ -186,7 +186,7 @@ query biomeRange($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorP
     blockTimestamp
     transactionHash
   }
-}query player($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+}query player($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $player_world_world_biomes_skip: Int, $player_world_world_biomes_first: Int, $player_world_world_biomes_orderBy: Biome_orderBy, $player_world_world_biomes_orderDirection: OrderDirection, $player_world_world_biomes_where: Biome_filter) {
   player(id: $id, block: $block, subgraphError: $subgraphError) {
     id
     currentPosition
@@ -196,8 +196,22 @@ query biomeRange($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorP
     totalHelpSent
     firstSeen
     lastUpdated
+    world {
+      id
+      biomes(
+        skip: $player_world_world_biomes_skip
+        first: $player_world_world_biomes_first
+        orderBy: $player_world_world_biomes_orderBy
+        orderDirection: $player_world_world_biomes_orderDirection
+        where: $player_world_world_biomes_where
+      ) {
+        id
+        index
+        growthRate
+      }
+    }
   }
-}query players($skip: Int, $first: Int, $orderBy: Player_orderBy, $orderDirection: OrderDirection, $where: Player_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+}query players($skip: Int, $first: Int, $orderBy: Player_orderBy, $orderDirection: OrderDirection, $where: Player_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $players_world_world_biomes_skip: Int, $players_world_world_biomes_first: Int, $players_world_world_biomes_orderBy: Biome_orderBy, $players_world_world_biomes_orderDirection: OrderDirection, $players_world_world_biomes_where: Biome_filter) {
   players(
     skip: $skip
     first: $first
@@ -215,8 +229,22 @@ query biomeRange($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorP
     totalHelpSent
     firstSeen
     lastUpdated
+    world {
+      id
+      biomes(
+        skip: $players_world_world_biomes_skip
+        first: $players_world_world_biomes_first
+        orderBy: $players_world_world_biomes_orderBy
+        orderDirection: $players_world_world_biomes_orderDirection
+        where: $players_world_world_biomes_where
+      ) {
+        id
+        index
+        growthRate
+      }
+    }
   }
-}query world($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $world_biomes_skip: Int, $world_biomes_first: Int, $world_biomes_orderBy: Biome_orderBy, $world_biomes_orderDirection: OrderDirection, $world_biomes_where: Biome_filter) {
+}query world($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $world_biomes_skip: Int, $world_biomes_first: Int, $world_biomes_orderBy: Biome_orderBy, $world_biomes_orderDirection: OrderDirection, $world_biomes_where: Biome_filter, $world_players_skip: Int, $world_players_first: Int, $world_players_orderBy: Player_orderBy, $world_players_orderDirection: OrderDirection, $world_players_where: Player_filter) {
   world(id: $id, block: $block, subgraphError: $subgraphError) {
     id
     biomes(
@@ -230,8 +258,24 @@ query biomeRange($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorP
       index
       growthRate
     }
+    players(
+      skip: $world_players_skip
+      first: $world_players_first
+      orderBy: $world_players_orderBy
+      orderDirection: $world_players_orderDirection
+      where: $world_players_where
+    ) {
+      id
+      currentPosition
+      currentPopulation
+      timeOfLastMove
+      totalMoves
+      totalHelpSent
+      firstSeen
+      lastUpdated
+    }
   }
-}query worlds($skip: Int, $first: Int, $orderBy: World_orderBy, $orderDirection: OrderDirection, $where: World_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $worlds_biomes_skip: Int, $worlds_biomes_first: Int, $worlds_biomes_orderBy: Biome_orderBy, $worlds_biomes_orderDirection: OrderDirection, $worlds_biomes_where: Biome_filter) {
+}query worlds($skip: Int, $first: Int, $orderBy: World_orderBy, $orderDirection: OrderDirection, $where: World_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $worlds_biomes_skip: Int, $worlds_biomes_first: Int, $worlds_biomes_orderBy: Biome_orderBy, $worlds_biomes_orderDirection: OrderDirection, $worlds_biomes_where: Biome_filter, $worlds_players_skip: Int, $worlds_players_first: Int, $worlds_players_orderBy: Player_orderBy, $worlds_players_orderDirection: OrderDirection, $worlds_players_where: Player_filter) {
   worlds(
     skip: $skip
     first: $first
@@ -253,17 +297,49 @@ query biomeRange($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorP
       index
       growthRate
     }
+    players(
+      skip: $worlds_players_skip
+      first: $worlds_players_first
+      orderBy: $worlds_players_orderBy
+      orderDirection: $worlds_players_orderDirection
+      where: $worlds_players_where
+    ) {
+      id
+      currentPosition
+      currentPopulation
+      timeOfLastMove
+      totalMoves
+      totalHelpSent
+      firstSeen
+      lastUpdated
+    }
   }
-}query biome($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+}query biome($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $biome_world_world_players_skip: Int, $biome_world_world_players_first: Int, $biome_world_world_players_orderBy: Player_orderBy, $biome_world_world_players_orderDirection: OrderDirection, $biome_world_world_players_where: Player_filter) {
   biome(id: $id, block: $block, subgraphError: $subgraphError) {
     id
     index
     growthRate
     world {
       id
+      players(
+        skip: $biome_world_world_players_skip
+        first: $biome_world_world_players_first
+        orderBy: $biome_world_world_players_orderBy
+        orderDirection: $biome_world_world_players_orderDirection
+        where: $biome_world_world_players_where
+      ) {
+        id
+        currentPosition
+        currentPopulation
+        timeOfLastMove
+        totalMoves
+        totalHelpSent
+        firstSeen
+        lastUpdated
+      }
     }
   }
-}query biomes($skip: Int, $first: Int, $orderBy: Biome_orderBy, $orderDirection: OrderDirection, $where: Biome_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+}query biomes($skip: Int, $first: Int, $orderBy: Biome_orderBy, $orderDirection: OrderDirection, $where: Biome_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $biomes_world_world_players_skip: Int, $biomes_world_world_players_first: Int, $biomes_world_world_players_orderBy: Player_orderBy, $biomes_world_world_players_orderDirection: OrderDirection, $biomes_world_world_players_where: Player_filter) {
   biomes(
     skip: $skip
     first: $first
@@ -278,6 +354,22 @@ query biomeRange($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorP
     growthRate
     world {
       id
+      players(
+        skip: $biomes_world_world_players_skip
+        first: $biomes_world_world_players_first
+        orderBy: $biomes_world_world_players_orderBy
+        orderDirection: $biomes_world_world_players_orderDirection
+        where: $biomes_world_world_players_where
+      ) {
+        id
+        currentPosition
+        currentPopulation
+        timeOfLastMove
+        totalMoves
+        totalHelpSent
+        firstSeen
+        lastUpdated
+      }
     }
   }
 }

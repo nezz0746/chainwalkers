@@ -19,6 +19,7 @@ const main = async () => {
       network: "base",
       graphName: "cww-base",
       chainId: 8453,
+      deployKey: "1lJ0qXT0uMeXH",
     },
     {
       startBlock: 138065718,
@@ -26,6 +27,7 @@ const main = async () => {
       network: "optimism",
       graphName: "cww-opt",
       chainId: 10,
+      deployKey: "1lJ0qXT0uMeXH",
     },
   ];
 
@@ -42,9 +44,16 @@ const main = async () => {
 
     await fs.writeFile(`subgraph.yaml`, filledConfig);
 
+    const getDeployCommand = () => {
+      return `graph deploy ${network.graphName} \
+  --version-label ${newVersion} \
+  --node https://subgraphs.alchemy.com/api/subgraphs/deploy \
+  --deploy-key ${network.deployKey} \
+  --ipfs https://ipfs.satsuma.xyz`;
+    };
     // Execute the following command: graph deploy --studio <graphName>
     // This command will deploy the subgraph to the graph studio
-    execSync(`graph deploy ${network.graphName} -l ${newVersion}`, {
+    execSync(getDeployCommand(), {
       stdio: "inherit",
     });
   }

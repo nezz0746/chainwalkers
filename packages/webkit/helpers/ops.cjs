@@ -103,7 +103,7 @@ const main = async function () {
   const urls = [
     {
       schemaUrl:
-        "https://api.studio.thegraph.com/query/958/cww-opt/version/latest",
+        "https://subgraph.satsuma-prod.com/541dfde21f82/nezzars-personnal--22386/cww-base/api",
       fileName: "chainwalkerworld",
       depthLimit: 3,
     },
