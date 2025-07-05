@@ -59,15 +59,20 @@ export function handleBiomeRange(event: BiomeRangeEvent): void {
 
   const startIndex = event.params.startIndex.toI32();
 
-  for (let i = startIndex; i < startIndex + event.params.biomes.length; i++) {
-    let biomeId = world.id.toHexString().concat("-").concat(i.toString());
-    let biome = new Biome(Bytes.fromHexString(biomeId));
-    biome.index = i;
-    biome.growthRate = event.params.biomes[i].growthRate;
+  for (let j = 0; j < event.params.biomes.length; j++) {
+    let globalIndex = startIndex + j;
+    let biomeId = world.id
+      .toHexString()
+      .concat("-")
+      .concat(globalIndex.toString());
+    let biome = new Biome(Bytes.fromUTF8(biomeId));
+    biome.index = globalIndex;
+    biome.growthRate = event.params.biomes[j].growthRate;
     biome.world = world.id;
     biome.save();
   }
 
+  world.save();
   entity.save();
 }
 
