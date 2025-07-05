@@ -13,7 +13,7 @@ struct Tribe {
 }
 
 struct Biome {
-    int16 lifeRate;
+    int16 growthRate;
 }
 
 contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
@@ -29,7 +29,10 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
     /// @param _owner    The address permitted to configure this OApp
     /// @param _worldmap      The map of biomes
     constructor(address _endpoint, address _owner, Biome[] memory _worldmap) OApp(_endpoint, _owner) Ownable(_owner) {
-        worldmap = _worldmap;
+        // Copy biomes from memory to storage one by one
+        for (uint256 i = 0; i < _worldmap.length; i++) {
+            worldmap.push(_worldmap[i]);
+        }
     }
 
     // ──────────────────────────────────────────────────────────────────────────────
@@ -124,7 +127,7 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
             _computePopulationOverTime(
                 100_000,
                 tribes[player].populationAfterMove,
-                int256(worldmap[tribes[player].position].lifeRate),
+                int256(worldmap[tribes[player].position].growthRate),
                 block.timestamp - tribes[player].timeOfLastMove
             ) > 0;
     }
@@ -164,6 +167,6 @@ contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
     }
 
     function _processHelpMessage(uint256 position) internal {
-        worldmap[position].lifeRate += 5;
+        worldmap[position].growthRate += 5;
     }
 }

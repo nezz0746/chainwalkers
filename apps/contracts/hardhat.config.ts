@@ -56,11 +56,11 @@ const config: HardhatUserConfig = {
     networks: {
         'base-mainnet': {
             eid: EndpointId.BASE_V2_MAINNET,
-            url: 'https://base-mainnet.g.alchemy.com/v2/YHL3ekUe1dsk14EoHTpiF',
+            url: 'https://base.gateway.tenderly.co',
             accounts,
         },
         'optimism-mainnet': {
-            eid: EndpointId.OPTIMISM_MAINNET,
+            eid: EndpointId.OPTIMISM_V2_MAINNET,
             url: 'https://opt-mainnet.g.alchemy.com/v2/YHL3ekUe1dsk14EoHTpiF',
             accounts,
         },

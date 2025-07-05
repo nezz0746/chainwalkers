@@ -9,7 +9,7 @@ const baseWorldContract: OmniPointHardhat = {
 }
 
 const optimismWorldContract: OmniPointHardhat = {
-    eid: EndpointId.OPTIMISM_MAINNET,
+    eid: EndpointId.OPTIMISM_V2_MAINNET,
     contractName: 'ChainWalkerWorld',
 }
 

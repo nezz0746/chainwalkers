@@ -15,5 +15,7 @@
     "tsx": "^4.16.2",
     "typescript": "5.8.2"
   },
-  "dependencies": {}
-} 
+  "dependencies": {
+    "viem": "^2.31.7"
+  }
+}

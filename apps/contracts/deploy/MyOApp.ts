@@ -1,11 +1,22 @@
 import assert from 'assert'
 
 import { type DeployFunction } from 'hardhat-deploy/types'
+import universe from './universe.json'
 
 // TODO declare your contract name here
-const contractName = 'MyOApp'
+const contractName = 'ChainWalkerWorld'
 
 const deploy: DeployFunction = async (hre) => {
+    const { worlds } = universe as {
+        length: number
+        worlds: Record<
+            number,
+            {
+                chainId: number
+                biomes: { growthRate: number }[]
+            }
+        >
+    }
     const { getNamedAccounts, deployments } = hre
 
     const { deploy } = deployments
@@ -33,12 +44,21 @@ const deploy: DeployFunction = async (hre) => {
     //   }
     // }
     const endpointV2Deployment = await hre.deployments.get('EndpointV2')
+    const chainId = await hre.getChainId()
+    const biomes = worlds[chainId]?.biomes || []
+
+    console.log({ chainId, biomes })
+
+    if (!biomes || biomes.length === 0) {
+        throw new Error('No biomes found for chainId: ' + chainId)
+    }
 
     const { address } = await deploy(contractName, {
         from: deployer,
         args: [
             endpointV2Deployment.address, // LayerZero's EndpointV2 address
             deployer, // owner
+            biomes,
         ],
         log: true,
         skipIfAlreadyDeployed: false,

@@ -2,6 +2,7 @@
 
 import { promises as fs } from "fs";
 import path from "path";
+import { base, optimism } from "viem/chains";
 
 type Universe = {
   length: number;
@@ -22,7 +23,7 @@ class UniverseCreator {
   public worlds: Record<number, World> = {};
 
   public generateUniverse(): void {
-    const chainIds = [1, 2];
+    const chainIds = [base.id, optimism.id];
     const length = 200; // Simple 200 positions per world
 
     // Reset state
