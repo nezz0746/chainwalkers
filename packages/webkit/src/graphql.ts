@@ -605,6 +605,7 @@ export type Player = {
   timeOfLastMove: Scalars['BigInt']['output'];
   totalHelpSent: Scalars['BigInt']['output'];
   totalMoves: Scalars['BigInt']['output'];
+  world: World;
 };
 
 export type Player_Filter = {
@@ -678,6 +679,27 @@ export type Player_Filter = {
   totalMoves_lte?: InputMaybe<Scalars['BigInt']['input']>;
   totalMoves_not?: InputMaybe<Scalars['BigInt']['input']>;
   totalMoves_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  world?: InputMaybe<Scalars['String']['input']>;
+  world_?: InputMaybe<World_Filter>;
+  world_contains?: InputMaybe<Scalars['String']['input']>;
+  world_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  world_ends_with?: InputMaybe<Scalars['String']['input']>;
+  world_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  world_gt?: InputMaybe<Scalars['String']['input']>;
+  world_gte?: InputMaybe<Scalars['String']['input']>;
+  world_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  world_lt?: InputMaybe<Scalars['String']['input']>;
+  world_lte?: InputMaybe<Scalars['String']['input']>;
+  world_not?: InputMaybe<Scalars['String']['input']>;
+  world_not_contains?: InputMaybe<Scalars['String']['input']>;
+  world_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  world_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  world_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  world_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  world_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  world_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  world_starts_with?: InputMaybe<Scalars['String']['input']>;
+  world_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum Player_OrderBy {
@@ -688,7 +710,9 @@ export enum Player_OrderBy {
   LastUpdated = 'lastUpdated',
   TimeOfLastMove = 'timeOfLastMove',
   TotalHelpSent = 'totalHelpSent',
-  TotalMoves = 'totalMoves'
+  TotalMoves = 'totalMoves',
+  World = 'world',
+  WorldId = 'world__id'
 }
 
 export type Query = {
@@ -1006,6 +1030,7 @@ export type World = {
   __typename?: 'World';
   biomes: Array<Biome>;
   id: Scalars['Bytes']['output'];
+  players: Array<Player>;
 };
 
 
@@ -1015,6 +1040,15 @@ export type WorldBiomesArgs = {
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<Biome_Filter>;
+};
+
+
+export type WorldPlayersArgs = {
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Player_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<Player_Filter>;
 };
 
 export type World_Filter = {
@@ -1033,11 +1067,13 @@ export type World_Filter = {
   id_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
   id_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
   or?: InputMaybe<Array<InputMaybe<World_Filter>>>;
+  players_?: InputMaybe<Player_Filter>;
 };
 
 export enum World_OrderBy {
   Biomes = 'biomes',
-  Id = 'id'
+  Id = 'id',
+  Players = 'players'
 }
 
 export type _Block_ = {
@@ -1234,10 +1270,15 @@ export type PlayerQueryVariables = Exact<{
   id: Scalars['ID']['input'];
   block?: InputMaybe<Block_Height>;
   subgraphError: _SubgraphErrorPolicy_;
+  player_world_world_biomes_skip?: InputMaybe<Scalars['Int']['input']>;
+  player_world_world_biomes_first?: InputMaybe<Scalars['Int']['input']>;
+  player_world_world_biomes_orderBy?: InputMaybe<Biome_OrderBy>;
+  player_world_world_biomes_orderDirection?: InputMaybe<OrderDirection>;
+  player_world_world_biomes_where?: InputMaybe<Biome_Filter>;
 }>;
 
 
-export type PlayerQuery = { __typename?: 'Query', player?: { __typename?: 'Player', id: any, currentPosition: any, currentPopulation: any, timeOfLastMove: any, totalMoves: any, totalHelpSent: any, firstSeen: any, lastUpdated: any } | null };
+export type PlayerQuery = { __typename?: 'Query', player?: { __typename?: 'Player', id: any, currentPosition: any, currentPopulation: any, timeOfLastMove: any, totalMoves: any, totalHelpSent: any, firstSeen: any, lastUpdated: any, world: { __typename?: 'World', id: any, biomes: Array<{ __typename?: 'Biome', id: any, index: number, growthRate: number }> } } | null };
 
 export type PlayersQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Int']['input']>;
@@ -1247,10 +1288,15 @@ export type PlayersQueryVariables = Exact<{
   where?: InputMaybe<Player_Filter>;
   block?: InputMaybe<Block_Height>;
   subgraphError: _SubgraphErrorPolicy_;
+  players_world_world_biomes_skip?: InputMaybe<Scalars['Int']['input']>;
+  players_world_world_biomes_first?: InputMaybe<Scalars['Int']['input']>;
+  players_world_world_biomes_orderBy?: InputMaybe<Biome_OrderBy>;
+  players_world_world_biomes_orderDirection?: InputMaybe<OrderDirection>;
+  players_world_world_biomes_where?: InputMaybe<Biome_Filter>;
 }>;
 
 
-export type PlayersQuery = { __typename?: 'Query', players: Array<{ __typename?: 'Player', id: any, currentPosition: any, currentPopulation: any, timeOfLastMove: any, totalMoves: any, totalHelpSent: any, firstSeen: any, lastUpdated: any }> };
+export type PlayersQuery = { __typename?: 'Query', players: Array<{ __typename?: 'Player', id: any, currentPosition: any, currentPopulation: any, timeOfLastMove: any, totalMoves: any, totalHelpSent: any, firstSeen: any, lastUpdated: any, world: { __typename?: 'World', id: any, biomes: Array<{ __typename?: 'Biome', id: any, index: number, growthRate: number }> } }> };
 
 export type WorldQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -1261,10 +1307,15 @@ export type WorldQueryVariables = Exact<{
   world_biomes_orderBy?: InputMaybe<Biome_OrderBy>;
   world_biomes_orderDirection?: InputMaybe<OrderDirection>;
   world_biomes_where?: InputMaybe<Biome_Filter>;
+  world_players_skip?: InputMaybe<Scalars['Int']['input']>;
+  world_players_first?: InputMaybe<Scalars['Int']['input']>;
+  world_players_orderBy?: InputMaybe<Player_OrderBy>;
+  world_players_orderDirection?: InputMaybe<OrderDirection>;
+  world_players_where?: InputMaybe<Player_Filter>;
 }>;
 
 
-export type WorldQuery = { __typename?: 'Query', world?: { __typename?: 'World', id: any, biomes: Array<{ __typename?: 'Biome', id: any, index: number, growthRate: number }> } | null };
+export type WorldQuery = { __typename?: 'Query', world?: { __typename?: 'World', id: any, biomes: Array<{ __typename?: 'Biome', id: any, index: number, growthRate: number }>, players: Array<{ __typename?: 'Player', id: any, currentPosition: any, currentPopulation: any, timeOfLastMove: any, totalMoves: any, totalHelpSent: any, firstSeen: any, lastUpdated: any }> } | null };
 
 export type WorldsQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Int']['input']>;
@@ -1279,19 +1330,29 @@ export type WorldsQueryVariables = Exact<{
   worlds_biomes_orderBy?: InputMaybe<Biome_OrderBy>;
   worlds_biomes_orderDirection?: InputMaybe<OrderDirection>;
   worlds_biomes_where?: InputMaybe<Biome_Filter>;
+  worlds_players_skip?: InputMaybe<Scalars['Int']['input']>;
+  worlds_players_first?: InputMaybe<Scalars['Int']['input']>;
+  worlds_players_orderBy?: InputMaybe<Player_OrderBy>;
+  worlds_players_orderDirection?: InputMaybe<OrderDirection>;
+  worlds_players_where?: InputMaybe<Player_Filter>;
 }>;
 
 
-export type WorldsQuery = { __typename?: 'Query', worlds: Array<{ __typename?: 'World', id: any, biomes: Array<{ __typename?: 'Biome', id: any, index: number, growthRate: number }> }> };
+export type WorldsQuery = { __typename?: 'Query', worlds: Array<{ __typename?: 'World', id: any, biomes: Array<{ __typename?: 'Biome', id: any, index: number, growthRate: number }>, players: Array<{ __typename?: 'Player', id: any, currentPosition: any, currentPopulation: any, timeOfLastMove: any, totalMoves: any, totalHelpSent: any, firstSeen: any, lastUpdated: any }> }> };
 
 export type BiomeQueryVariables = Exact<{
   id: Scalars['ID']['input'];
   block?: InputMaybe<Block_Height>;
   subgraphError: _SubgraphErrorPolicy_;
+  biome_world_world_players_skip?: InputMaybe<Scalars['Int']['input']>;
+  biome_world_world_players_first?: InputMaybe<Scalars['Int']['input']>;
+  biome_world_world_players_orderBy?: InputMaybe<Player_OrderBy>;
+  biome_world_world_players_orderDirection?: InputMaybe<OrderDirection>;
+  biome_world_world_players_where?: InputMaybe<Player_Filter>;
 }>;
 
 
-export type BiomeQuery = { __typename?: 'Query', biome?: { __typename?: 'Biome', id: any, index: number, growthRate: number, world: { __typename?: 'World', id: any } } | null };
+export type BiomeQuery = { __typename?: 'Query', biome?: { __typename?: 'Biome', id: any, index: number, growthRate: number, world: { __typename?: 'World', id: any, players: Array<{ __typename?: 'Player', id: any, currentPosition: any, currentPopulation: any, timeOfLastMove: any, totalMoves: any, totalHelpSent: any, firstSeen: any, lastUpdated: any }> } } | null };
 
 export type BiomesQueryVariables = Exact<{
   skip?: InputMaybe<Scalars['Int']['input']>;
@@ -1301,10 +1362,15 @@ export type BiomesQueryVariables = Exact<{
   where?: InputMaybe<Biome_Filter>;
   block?: InputMaybe<Block_Height>;
   subgraphError: _SubgraphErrorPolicy_;
+  biomes_world_world_players_skip?: InputMaybe<Scalars['Int']['input']>;
+  biomes_world_world_players_first?: InputMaybe<Scalars['Int']['input']>;
+  biomes_world_world_players_orderBy?: InputMaybe<Player_OrderBy>;
+  biomes_world_world_players_orderDirection?: InputMaybe<OrderDirection>;
+  biomes_world_world_players_where?: InputMaybe<Player_Filter>;
 }>;
 
 
-export type BiomesQuery = { __typename?: 'Query', biomes: Array<{ __typename?: 'Biome', id: any, index: number, growthRate: number, world: { __typename?: 'World', id: any } }> };
+export type BiomesQuery = { __typename?: 'Query', biomes: Array<{ __typename?: 'Biome', id: any, index: number, growthRate: number, world: { __typename?: 'World', id: any, players: Array<{ __typename?: 'Player', id: any, currentPosition: any, currentPopulation: any, timeOfLastMove: any, totalMoves: any, totalHelpSent: any, firstSeen: any, lastUpdated: any }> } }> };
 
 
 export const BiomeRangeDocument = gql`
@@ -1538,7 +1604,7 @@ export const TraveledsDocument = gql`
 }
     `;
 export const PlayerDocument = gql`
-    query player($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+    query player($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $player_world_world_biomes_skip: Int, $player_world_world_biomes_first: Int, $player_world_world_biomes_orderBy: Biome_orderBy, $player_world_world_biomes_orderDirection: OrderDirection, $player_world_world_biomes_where: Biome_filter) {
   player(id: $id, block: $block, subgraphError: $subgraphError) {
     id
     currentPosition
@@ -1548,11 +1614,25 @@ export const PlayerDocument = gql`
     totalHelpSent
     firstSeen
     lastUpdated
+    world {
+      id
+      biomes(
+        skip: $player_world_world_biomes_skip
+        first: $player_world_world_biomes_first
+        orderBy: $player_world_world_biomes_orderBy
+        orderDirection: $player_world_world_biomes_orderDirection
+        where: $player_world_world_biomes_where
+      ) {
+        id
+        index
+        growthRate
+      }
+    }
   }
 }
     `;
 export const PlayersDocument = gql`
-    query players($skip: Int, $first: Int, $orderBy: Player_orderBy, $orderDirection: OrderDirection, $where: Player_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+    query players($skip: Int, $first: Int, $orderBy: Player_orderBy, $orderDirection: OrderDirection, $where: Player_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $players_world_world_biomes_skip: Int, $players_world_world_biomes_first: Int, $players_world_world_biomes_orderBy: Biome_orderBy, $players_world_world_biomes_orderDirection: OrderDirection, $players_world_world_biomes_where: Biome_filter) {
   players(
     skip: $skip
     first: $first
@@ -1570,11 +1650,25 @@ export const PlayersDocument = gql`
     totalHelpSent
     firstSeen
     lastUpdated
+    world {
+      id
+      biomes(
+        skip: $players_world_world_biomes_skip
+        first: $players_world_world_biomes_first
+        orderBy: $players_world_world_biomes_orderBy
+        orderDirection: $players_world_world_biomes_orderDirection
+        where: $players_world_world_biomes_where
+      ) {
+        id
+        index
+        growthRate
+      }
+    }
   }
 }
     `;
 export const WorldDocument = gql`
-    query world($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $world_biomes_skip: Int, $world_biomes_first: Int, $world_biomes_orderBy: Biome_orderBy, $world_biomes_orderDirection: OrderDirection, $world_biomes_where: Biome_filter) {
+    query world($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $world_biomes_skip: Int, $world_biomes_first: Int, $world_biomes_orderBy: Biome_orderBy, $world_biomes_orderDirection: OrderDirection, $world_biomes_where: Biome_filter, $world_players_skip: Int, $world_players_first: Int, $world_players_orderBy: Player_orderBy, $world_players_orderDirection: OrderDirection, $world_players_where: Player_filter) {
   world(id: $id, block: $block, subgraphError: $subgraphError) {
     id
     biomes(
@@ -1588,11 +1682,27 @@ export const WorldDocument = gql`
       index
       growthRate
     }
+    players(
+      skip: $world_players_skip
+      first: $world_players_first
+      orderBy: $world_players_orderBy
+      orderDirection: $world_players_orderDirection
+      where: $world_players_where
+    ) {
+      id
+      currentPosition
+      currentPopulation
+      timeOfLastMove
+      totalMoves
+      totalHelpSent
+      firstSeen
+      lastUpdated
+    }
   }
 }
     `;
 export const WorldsDocument = gql`
-    query worlds($skip: Int, $first: Int, $orderBy: World_orderBy, $orderDirection: OrderDirection, $where: World_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $worlds_biomes_skip: Int, $worlds_biomes_first: Int, $worlds_biomes_orderBy: Biome_orderBy, $worlds_biomes_orderDirection: OrderDirection, $worlds_biomes_where: Biome_filter) {
+    query worlds($skip: Int, $first: Int, $orderBy: World_orderBy, $orderDirection: OrderDirection, $where: World_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $worlds_biomes_skip: Int, $worlds_biomes_first: Int, $worlds_biomes_orderBy: Biome_orderBy, $worlds_biomes_orderDirection: OrderDirection, $worlds_biomes_where: Biome_filter, $worlds_players_skip: Int, $worlds_players_first: Int, $worlds_players_orderBy: Player_orderBy, $worlds_players_orderDirection: OrderDirection, $worlds_players_where: Player_filter) {
   worlds(
     skip: $skip
     first: $first
@@ -1614,23 +1724,55 @@ export const WorldsDocument = gql`
       index
       growthRate
     }
+    players(
+      skip: $worlds_players_skip
+      first: $worlds_players_first
+      orderBy: $worlds_players_orderBy
+      orderDirection: $worlds_players_orderDirection
+      where: $worlds_players_where
+    ) {
+      id
+      currentPosition
+      currentPopulation
+      timeOfLastMove
+      totalMoves
+      totalHelpSent
+      firstSeen
+      lastUpdated
+    }
   }
 }
     `;
 export const BiomeDocument = gql`
-    query biome($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+    query biome($id: ID!, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $biome_world_world_players_skip: Int, $biome_world_world_players_first: Int, $biome_world_world_players_orderBy: Player_orderBy, $biome_world_world_players_orderDirection: OrderDirection, $biome_world_world_players_where: Player_filter) {
   biome(id: $id, block: $block, subgraphError: $subgraphError) {
     id
     index
     growthRate
     world {
       id
+      players(
+        skip: $biome_world_world_players_skip
+        first: $biome_world_world_players_first
+        orderBy: $biome_world_world_players_orderBy
+        orderDirection: $biome_world_world_players_orderDirection
+        where: $biome_world_world_players_where
+      ) {
+        id
+        currentPosition
+        currentPopulation
+        timeOfLastMove
+        totalMoves
+        totalHelpSent
+        firstSeen
+        lastUpdated
+      }
     }
   }
 }
     `;
 export const BiomesDocument = gql`
-    query biomes($skip: Int, $first: Int, $orderBy: Biome_orderBy, $orderDirection: OrderDirection, $where: Biome_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!) {
+    query biomes($skip: Int, $first: Int, $orderBy: Biome_orderBy, $orderDirection: OrderDirection, $where: Biome_filter, $block: Block_height, $subgraphError: _SubgraphErrorPolicy_!, $biomes_world_world_players_skip: Int, $biomes_world_world_players_first: Int, $biomes_world_world_players_orderBy: Player_orderBy, $biomes_world_world_players_orderDirection: OrderDirection, $biomes_world_world_players_where: Player_filter) {
   biomes(
     skip: $skip
     first: $first
@@ -1645,6 +1787,22 @@ export const BiomesDocument = gql`
     growthRate
     world {
       id
+      players(
+        skip: $biomes_world_world_players_skip
+        first: $biomes_world_world_players_first
+        orderBy: $biomes_world_world_players_orderBy
+        orderDirection: $biomes_world_world_players_orderDirection
+        where: $biomes_world_world_players_where
+      ) {
+        id
+        currentPosition
+        currentPopulation
+        timeOfLastMove
+        totalMoves
+        totalHelpSent
+        firstSeen
+        lastUpdated
+      }
     }
   }
 }

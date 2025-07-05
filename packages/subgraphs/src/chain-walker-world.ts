@@ -125,6 +125,7 @@ export function handleHelpSent(event: HelpSentEvent): void {
   player.timeOfLastMove = event.params.tribe.timeOfLastMove;
   player.totalHelpSent = player.totalHelpSent.plus(BigInt.fromI32(1));
   player.lastUpdated = event.block.timestamp;
+  player.world = event.address;
   player.save();
 }
 
@@ -175,6 +176,7 @@ export function handleTraveled(event: TraveledEvent): void {
 
   // Update PlayerEntity
   let player = getOrCreatePlayer(event.params.player, event.block.timestamp);
+  player.world = event.address;
   let isNewMove = player.currentPosition.lt(event.params.tribe.position);
 
   player.currentPosition = event.params.tribe.position;

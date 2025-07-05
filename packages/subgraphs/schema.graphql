@@ -73,11 +73,13 @@ type Player @entity(immutable: false) {
   totalHelpSent: BigInt! # total help sent to other players
   firstSeen: BigInt! # timestamp when first seen
   lastUpdated: BigInt! # timestamp when last updated
+  world: World!
 }
 
 type World @entity(immutable: false) {
   id: Bytes! # world address
   biomes: [Biome!]! @derivedFrom(field: "world")
+  players: [Player!]! @derivedFrom(field: "world")
 }
 
 type Biome @entity(immutable: false) {
