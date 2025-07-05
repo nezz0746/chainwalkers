@@ -16,13 +16,10 @@ struct Biome {
     int16 lifeRate;
 }
 
-contract MyOApp is OApp, OAppOptionsType3, Population {
+contract ChainWalkerWorld is OApp, OAppOptionsType3, Population {
     mapping(address => Tribe) public tribes;
 
-    Biome[] public map;
-
-    /// @notice Last string received from any remote chain
-    string public lastMessage;
+    Biome[] public worldmap;
 
     /// @notice Msg type for sending a string, for use in OAppOptionsType3 as an enforced option
     uint16 public constant SEND = 1;
@@ -30,7 +27,10 @@ contract MyOApp is OApp, OAppOptionsType3, Population {
     /// @notice Initialize with Endpoint V2 and owner address
     /// @param _endpoint The local chain's LayerZero Endpoint V2 address
     /// @param _owner    The address permitted to configure this OApp
-    constructor(address _endpoint, address _owner) OApp(_endpoint, _owner) Ownable(_owner) {}
+    /// @param _worldmap      The map of biomes
+    constructor(address _endpoint, address _owner, Biome[] memory _worldmap) OApp(_endpoint, _owner) Ownable(_owner) {
+        worldmap = _worldmap;
+    }
 
     // ──────────────────────────────────────────────────────────────────────────────
     // 0. (Optional) Quote business logic
@@ -42,21 +42,16 @@ contract MyOApp is OApp, OAppOptionsType3, Population {
     /**
      * @notice Quotes the gas needed to pay for the full omnichain transaction in native gas or ZRO token.
      * @param _dstEid Destination chain's endpoint ID.
-     * @param _string The string to send.
+     * @param player The player to send help to.
      * @param _options Message execution options (e.g., for sending gas to destination).
-     * @param _payInLzToken Whether to return fee in ZRO token.
      * @return fee A `MessagingFee` struct containing the calculated gas fee in either the native token or ZRO token.
      */
-    function quoteSendString(
+    function quoteSendHelp(
         uint32 _dstEid,
-        string calldata _string,
-        bytes calldata _options,
-        bool _payInLzToken
+        address player,
+        bytes calldata _options
     ) public view returns (MessagingFee memory fee) {
-        bytes memory _message = abi.encode(_string);
-        // combineOptions (from OAppOptionsType3) merges enforced options set by the contract owner
-        // with any additional execution options provided by the caller
-        fee = _quote(_dstEid, _message, combineOptions(_dstEid, SEND, _options), _payInLzToken);
+        fee = _quote(_dstEid, _getEncodedHelpMessage(player), combineOptions(_dstEid, SEND, _options), false);
     }
 
     // ──────────────────────────────────────────────────────────────────────────────
@@ -68,17 +63,13 @@ contract MyOApp is OApp, OAppOptionsType3, Population {
 
     /// @notice Send a string to a remote OApp on another chain
     /// @param _dstEid   Destination Endpoint ID (uint32)
-    /// @param _string  The string to send
     /// @param _options  Execution options for gas on the destination (bytes)
-    function sendString(uint32 _dstEid, string calldata _string, bytes calldata _options) external payable {
+    function sendHelp(address player, uint32 _dstEid, bytes calldata _options) external payable {
         // 1. (Optional) Update any local state here.
         //    e.g., record that a message was "sent":
         //    sentCount += 1;
 
-        // 2. Encode any data structures you wish to send into bytes
-        //    You can use abi.encode, abi.encodePacked, or directly splice bytes
-        //    if you know the format of your data structures
-        bytes memory _message = abi.encode(_string);
+        bytes memory helpMessage = _getEncodedHelpMessage(player);
 
         // 3. Call OAppSender._lzSend to package and dispatch the cross-chain message
         //    - _dstEid:   remote chain's Endpoint ID
@@ -91,7 +82,7 @@ contract MyOApp is OApp, OAppOptionsType3, Population {
         //    with any additional execution options provided by the caller
         _lzSend(
             _dstEid,
-            _message,
+            helpMessage,
             combineOptions(_dstEid, SEND, _options),
             MessagingFee(msg.value, 0),
             payable(msg.sender)
@@ -123,14 +114,9 @@ contract MyOApp is OApp, OAppOptionsType3, Population {
         // 1. Decode the incoming bytes into a string
         //    You can use abi.decode, abi.decodePacked, or directly splice bytes
         //    if you know the format of your data structures
-        string memory _string = abi.decode(_message, (string));
+        uint256 position = _getDecodedHelpMessagePosition(_message);
 
-        // 2. Apply your custom logic. In this example, store it in `lastMessage`.
-        lastMessage = _string;
-
-        // 3. (Optional) Trigger further on-chain actions.
-        //    e.g., emit an event, mint tokens, call another contract, etc.
-        //    emit MessageReceived(_origin.srcEid, _string);
+        _processHelpMessage(position);
     }
 
     function _isAlive(address player) public view returns (bool) {
@@ -138,7 +124,7 @@ contract MyOApp is OApp, OAppOptionsType3, Population {
             _computePopulationOverTime(
                 100_000,
                 tribes[player].populationAfterMove,
-                int256(map[tribes[player].position].lifeRate),
+                int256(worldmap[tribes[player].position].lifeRate),
                 block.timestamp - tribes[player].timeOfLastMove
             ) > 0;
     }
@@ -167,5 +153,17 @@ contract MyOApp is OApp, OAppOptionsType3, Population {
             tribes[player].populationAfterMove,
             newPosition - tribes[player].position
         );
+    }
+
+    function _getEncodedHelpMessage(address player) internal view returns (bytes memory) {
+        return abi.encode(tribes[player].position);
+    }
+
+    function _getDecodedHelpMessagePosition(bytes calldata _message) internal view returns (uint256) {
+        return abi.decode(_message, (uint256));
+    }
+
+    function _processHelpMessage(uint256 position) internal {
+        worldmap[position].lifeRate += 5;
     }
 }

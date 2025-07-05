@@ -54,14 +54,14 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        'optimism-testnet': {
-            eid: EndpointId.OPTSEP_V2_TESTNET,
-            url: process.env.RPC_URL_OP_SEPOLIA || 'https://optimism-sepolia.gateway.tenderly.co',
+        'base-mainnet': {
+            eid: EndpointId.BASE_V2_MAINNET,
+            url: 'https://base-mainnet.g.alchemy.com/v2/YHL3ekUe1dsk14EoHTpiF',
             accounts,
         },
-        'arbitrum-testnet': {
-            eid: EndpointId.ARBSEP_V2_TESTNET,
-            url: process.env.RPC_URL_ARB_SEPOLIA || 'https://arbitrum-sepolia.gateway.tenderly.co',
+        'optimism-mainnet': {
+            eid: EndpointId.OPTIMISM_MAINNET,
+            url: 'https://opt-mainnet.g.alchemy.com/v2/YHL3ekUe1dsk14EoHTpiF',
             accounts,
         },
         hardhat: {
