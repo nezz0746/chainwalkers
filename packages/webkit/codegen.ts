@@ -5,7 +5,7 @@ const config: CodegenConfig = {
   generates: {
     "./src/graphql.ts": {
       schema:
-        "https://api.studio.thegraph.com/query/958/cww-opt/version/latest",
+        "https://subgraph.satsuma-prod.com/541dfde21f82/nezzars-personnal--22386/cww-base/api",
       documents: "./documents/chainwalkerworld.graphql",
       plugins: [
         "typescript",
