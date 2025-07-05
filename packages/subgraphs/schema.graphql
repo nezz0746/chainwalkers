@@ -63,3 +63,26 @@ type Traveled @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
+
+type Player @entity(immutable: false) {
+  id: Bytes! # player address
+  currentPosition: BigInt! # current position
+  currentPopulation: BigInt! # current population
+  timeOfLastMove: BigInt! # timestamp of last move
+  totalMoves: BigInt! # total number of moves made
+  totalHelpSent: BigInt! # total help sent to other players
+  firstSeen: BigInt! # timestamp when first seen
+  lastUpdated: BigInt! # timestamp when last updated
+}
+
+type World @entity(immutable: false) {
+  id: Bytes! # world address
+  biomes: [Biome!]! @derivedFrom(field: "world")
+}
+
+type Biome @entity(immutable: false) {
+  id: Bytes! # worldAddress-biomeIndex
+  index: Int! # uint256
+  growthRate: Int! # int16
+  world: World!
+}

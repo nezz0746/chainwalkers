@@ -15,8 +15,34 @@ import {
   OwnershipTransferred,
   PeerSet,
   Traveled,
+  Player,
+  World,
+  Biome,
 } from "../generated/schema";
-import { Bytes } from "@graphprotocol/graph-ts";
+import { Bytes, BigInt } from "@graphprotocol/graph-ts";
+
+function getOrCreatePlayer(playerAddress: Bytes, timestamp: BigInt): Player {
+  let player = Player.load(playerAddress);
+  if (player == null) {
+    player = new Player(playerAddress);
+    player.currentPosition = BigInt.fromI32(0);
+    player.currentPopulation = BigInt.fromI32(0);
+    player.timeOfLastMove = BigInt.fromI32(0);
+    player.totalMoves = BigInt.fromI32(0);
+    player.totalHelpSent = BigInt.fromI32(0);
+    player.firstSeen = timestamp;
+    player.lastUpdated = timestamp;
+  }
+  return player as Player;
+}
+
+function getOrCreateWorld(worldAddress: Bytes): World {
+  let world = World.load(worldAddress);
+  if (world == null) {
+    world = new World(worldAddress);
+  }
+  return world as World;
+}
 
 export function handleBiomeRange(event: BiomeRangeEvent): void {
   let entity = new BiomeRange(
@@ -28,6 +54,19 @@ export function handleBiomeRange(event: BiomeRangeEvent): void {
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;
+
+  let world = getOrCreateWorld(event.address);
+
+  const startIndex = event.params.startIndex.toI32();
+
+  for (let i = startIndex; i < startIndex + event.params.biomes.length; i++) {
+    let biomeId = world.id.toHexString().concat("-").concat(i.toString());
+    let biome = new Biome(Bytes.fromHexString(biomeId));
+    biome.index = i;
+    biome.growthRate = event.params.biomes[i].growthRate;
+    biome.world = world.id;
+    biome.save();
+  }
 
   entity.save();
 }
@@ -73,6 +112,15 @@ export function handleHelpSent(event: HelpSentEvent): void {
   entity.transactionHash = event.transaction.hash;
 
   entity.save();
+
+  // Update PlayerEntity
+  let player = getOrCreatePlayer(event.params.player, event.block.timestamp);
+  player.currentPosition = event.params.tribe.position;
+  player.currentPopulation = event.params.tribe.population;
+  player.timeOfLastMove = event.params.tribe.timeOfLastMove;
+  player.totalHelpSent = player.totalHelpSent.plus(BigInt.fromI32(1));
+  player.lastUpdated = event.block.timestamp;
+  player.save();
 }
 
 export function handleOwnershipTransferred(
@@ -119,4 +167,19 @@ export function handleTraveled(event: TraveledEvent): void {
   entity.transactionHash = event.transaction.hash;
 
   entity.save();
+
+  // Update PlayerEntity
+  let player = getOrCreatePlayer(event.params.player, event.block.timestamp);
+  let isNewMove = player.currentPosition.lt(event.params.tribe.position);
+
+  player.currentPosition = event.params.tribe.position;
+  player.currentPopulation = event.params.tribe.population;
+  player.timeOfLastMove = event.params.tribe.timeOfLastMove;
+  player.lastUpdated = event.block.timestamp;
+
+  if (isNewMove) {
+    player.totalMoves = player.totalMoves.plus(BigInt.fromI32(1));
+  }
+
+  player.save();
 }
