@@ -146,11 +146,7 @@ export default function Home() {
             <div key={world.id}>
               <div className="flex flex-row">
                 {world.biomes.map(({ growthRate, id }) => {
-                  const color = chroma
-                    .scale([declineColor, growingColor])
-                    .mode("rgb")(growthRate / 100)
-                    .hex();
-                  console.log({ color, growthRate });
+                  const color = growthRate > 0 ? growingColor : declineColor;
                   return (
                     <div
                       key={id}
