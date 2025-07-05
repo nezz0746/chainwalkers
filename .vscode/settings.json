@@ -8,5 +8,8 @@
   "[solidity]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "JuanBlanco.solidity"
+  },
+  "[yaml]": {
+    "editor.formatOnSave": false
   }
 }
