@@ -3,7 +3,6 @@ import {
   Biome_OrderBy,
   getSdk as chainWalkerWorldSdk,
   OrderDirection,
-  World_OrderBy,
 } from "@cww/webkit/graphql";
 import { GraphQLClient } from "graphql-request";
 import { Address } from "viem";
@@ -36,7 +35,7 @@ export class GameApi {
 
   async me(address?: Address) {
     if (!address) {
-      return Promise.resolve([]);
+      return Promise.resolve(undefined);
     }
     return Promise.all(
       Object.entries(this.clients).map(([chainId, client]) =>
