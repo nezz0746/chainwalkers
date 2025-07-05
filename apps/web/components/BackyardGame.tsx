@@ -2,81 +2,99 @@
 
 import { useEffect, useRef } from "react";
 import { useAccount } from "wagmi";
-import * as Phaser from "phaser";
-
-// Import the game scenes
-import { BootScene } from "../game/src/scenes/BootScene";
-import { LaneScene } from "../game/src/scenes/LaneScene";
-import { SoundScene } from "../game/src/scenes/SoundScene";
 
 // Import game state to pass wallet info
 import { gameState } from "../game/src/core/GameState";
 
 export default function ChainWalkersGame() {
-    const gameRef = useRef<Phaser.Game | null>(null);
+    const gameRef = useRef<any>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const { address, isConnected } = useAccount();
 
     useEffect(() => {
         if (!containerRef.current) return;
 
-        // Phaser game configuration
-        const config: Phaser.Types.Core.GameConfig = {
-            type: Phaser.AUTO,
-            width: window.innerWidth,
-            height: window.innerHeight,
-            backgroundColor: '#D2B48C', // Sandy desert color
-            parent: containerRef.current,
-            scene: [BootScene, SoundScene, LaneScene],
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    gravity: { x: 0, y: 0 },
-                    debug: false
+        // Dynamically import Phaser and game scenes to avoid SSR issues
+        const initializeGame = async () => {
+            const [Phaser, { BootScene }, { LaneScene }] = await Promise.all([
+                import("phaser"),
+                import("../game/src/scenes/BootScene"),
+                import("../game/src/scenes/LaneScene")
+            ]);
+
+            // Phaser game configuration
+            const config: Phaser.Types.Core.GameConfig = {
+                type: Phaser.AUTO,
+                width: window.innerWidth,
+                height: window.innerHeight,
+                backgroundColor: '#D2B48C', // Sandy desert color
+                parent: containerRef.current,
+                scene: [BootScene, LaneScene],
+                physics: {
+                    default: 'arcade',
+                    arcade: {
+                        gravity: { x: 0, y: 0 },
+                        debug: false
+                    }
+                },
+                audio: {
+                    disableWebAudio: false
+                },
+                scale: {
+                    mode: Phaser.Scale.RESIZE,
+                    autoCenter: Phaser.Scale.CENTER_BOTH
+                },
+                input: {
+                    keyboard: true,
+                    touch: true,
                 }
-            },
-            audio: {
-                disableWebAudio: false
-            },
-            scale: {
-                mode: Phaser.Scale.RESIZE,
-                autoCenter: Phaser.Scale.CENTER_BOTH
-            },
-            input: {
-                keyboard: true,
-                touch: true,
-            }
+            };
+
+            // Create the game instance
+            gameRef.current = new Phaser.Game(config);
+
+            // Set tabindex on the canvas to allow keyboard focus
+            const setupCanvas = () => {
+                const canvas = containerRef.current?.querySelector('canvas');
+                if (canvas) {
+                    canvas.tabIndex = 0;
+                    canvas.style.outline = 'none';
+                    canvas.focus();
+                    console.log('Canvas setup for keyboard input');
+                }
+            };
+
+            // Setup canvas after a short delay to ensure it's created
+            setTimeout(setupCanvas, 100);
+
+            // Handle window resize
+            const handleResize = () => {
+                if (gameRef.current) {
+                    gameRef.current.scale.resize(window.innerWidth, window.innerHeight);
+                }
+            };
+
+            window.addEventListener('resize', handleResize);
+
+            // Return cleanup function
+            return () => {
+                window.removeEventListener('resize', handleResize);
+            };
         };
 
-        // Create the game instance
-        gameRef.current = new Phaser.Game(config);
+        let cleanup: (() => void) | undefined;
 
-        // Set tabindex on the canvas to allow keyboard focus
-        const setupCanvas = () => {
-            const canvas = containerRef.current?.querySelector('canvas');
-            if (canvas) {
-                canvas.tabIndex = 0;
-                canvas.style.outline = 'none';
-                canvas.focus();
-                console.log('Canvas setup for keyboard input');
-            }
-        };
-
-        // Setup canvas after a short delay to ensure it's created
-        setTimeout(setupCanvas, 100);
-
-        // Handle window resize
-        const handleResize = () => {
-            if (gameRef.current) {
-                gameRef.current.scale.resize(window.innerWidth, window.innerHeight);
-            }
-        };
-
-        window.addEventListener('resize', handleResize);
+        initializeGame().then((cleanupFn) => {
+            cleanup = cleanupFn;
+        }).catch((error) => {
+            console.error('Failed to initialize game:', error);
+        });
 
         // Cleanup function
         return () => {
-            window.removeEventListener('resize', handleResize);
+            if (cleanup) {
+                cleanup();
+            }
             if (gameRef.current) {
                 gameRef.current.destroy(true);
                 gameRef.current = null;
