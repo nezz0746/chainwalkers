@@ -6,6 +6,7 @@ import {
   World_OrderBy,
 } from "@cww/webkit/graphql";
 import { GraphQLClient } from "graphql-request";
+import { Address } from "viem";
 import { base, optimism } from "viem/chains";
 
 const API_KEY = "9e5d68d46c8f27b3b1128cd2ad21e5db";
@@ -33,7 +34,28 @@ export class GameApi {
     );
   }
 
-  worlds() {
+  async me(address?: Address) {
+    if (!address) {
+      return Promise.resolve([]);
+    }
+    return Promise.all(
+      Object.entries(this.clients).map(([chainId, client]) =>
+        chainWalkerWorldSdk(client)
+          .player({
+            id: address.toLowerCase(),
+            subgraphError: _SubgraphErrorPolicy_.Allow,
+          })
+          .then((res) => {
+            console.log({ res });
+            return res.player;
+          })
+      )
+    ).then((res) => {
+      return res.flatMap((r) => r).filter(Boolean)[0];
+    });
+  }
+
+  async worlds() {
     return Promise.all(
       Object.entries(this.clients).map(([chainId, client]) =>
         chainWalkerWorldSdk(client)

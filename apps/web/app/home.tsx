@@ -12,17 +12,39 @@ import {
   DialogTitle,
 } from "../src/components/ui/dialog";
 import { Button } from "../src/components/ui/button";
+import {
+  Select,
+  SelectItem,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useAccount, useSwitchChain } from "wagmi";
+import { base, optimism } from "viem/chains";
+import { useWriteChainWalkerWorldStart } from "@/generated";
 
 const growingColor = "#00ff00";
 const declineColor = "#ff0000";
 
 export default function Home() {
+  const { address, chain } = useAccount();
+  const { switchChain } = useSwitchChain();
   const { data: worlds } = useQuery({
     queryKey: ["worlds"],
     queryFn: () => {
       return new GameApi().worlds();
     },
   });
+
+  const { data: me } = useQuery({
+    queryKey: ["me", address],
+    queryFn: () => {
+      return new GameApi().me(address);
+    },
+    enabled: !!address,
+  });
+
+  console.log({ me });
 
   // Modal and audio state
   const [open, setOpen] = useState(true);
@@ -45,6 +67,8 @@ export default function Home() {
     }
   };
 
+  const { writeContract } = useWriteChainWalkerWorldStart({});
+
   return (
     <>
       {/* Modal for instructions and lore (moved outside flex container) */}
@@ -54,15 +78,7 @@ export default function Home() {
           className="max-w-md w-full rounded-2xl shadow-2xl bg-gradient-to-br from-yellow-100 via-orange-100 to-yellow-200 border-2 border-yellow-300 p-8 relative flex flex-col items-center justify-center"
           style={{
             position: "fixed",
-            top: "50%",
-            left: "50%",
             zIndex: 9999,
-            width: "100vw",
-            maxWidth: "28rem", // matches max-w-md
-            boxShadow:
-              "0 8px 32px 0 rgba(139, 69, 19, 0.25), 0 1.5px 8px 0 rgba(212, 165, 116, 0.15)",
-            background: "linear-gradient(135deg, #fdf6e3 0%, #fbe7c6 100%)",
-            margin: 0,
             padding: 20,
           }}
         >
@@ -70,20 +86,12 @@ export default function Home() {
             <DialogTitle className="text-2xl text-center font-extrabold text-yellow-900 drop-shadow-sm mb-2 tracking-wide">
               Welcome to
               <br />
-              <span className="text-orange-700">Chainwalkers Universe</span>
+              <span className="text-orange-700">Chainwalkers</span>
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-5 text-center">
             <p className="text-base text-yellow-900 font-medium leading-relaxed">
-              Embark on a journey across the{" "}
-              <span className="font-semibold text-orange-700">
-                Chainwalkers Universe
-              </span>
-              !<br />
-              <span className="text-yellow-800">
-                Explore biomes, grow your influence, and uncover the secrets of
-                the desert.
-              </span>
+              You can't survive alone. Help other survivors in other worlds.
             </p>
             <ul className="text-left mx-auto max-w-xs text-sm list-disc list-inside text-yellow-800 space-y-1">
               <li>
@@ -91,8 +99,10 @@ export default function Home() {
                 through biomes and watch them grow or decline.
               </li>
               <li>
-                <span className="font-semibold text-orange-700">Connect</span>{" "}
-                your wallet to interact with the world.
+                <span className="font-semibold text-orange-700">
+                  Send a beacon
+                </span>{" "}
+                to other worlds to help cross dangerous biomes.
               </li>
               <li>
                 <span className="font-semibold text-orange-700">Shape</span> the
@@ -111,18 +121,6 @@ export default function Home() {
               Play now
             </Button>
           </div>
-          <div
-            className="absolute -top-8 -right-8  pointer-events-none select-none"
-            aria-hidden="true"
-          >
-            <img src="/desert-cactus.png" alt="" className="w-24 h-24" />
-          </div>
-          <div
-            className="absolute -bottom-8 -left-8  pointer-events-none select-none"
-            aria-hidden="true"
-          >
-            <img src="/desert-cactus.png" alt="" className="w-20 h-20" />
-          </div>
         </DialogContent>
       </Dialog>
       {/* Main app content */}
@@ -139,8 +137,44 @@ export default function Home() {
           <div>
             <h1>Chainwalkers Universe</h1>
           </div>
-          <ConnectKitButton />
+          {chain && (
+            <div className="flex flex-row items-center gap-2">
+              <p>{chain.name}</p>
+              <ConnectKitButton />
+            </div>
+          )}
         </nav>
+        {!me && (
+          <div className="p-4 border border-black flex flex-row items-center gap-2">
+            <Select
+              value={chain?.id === base.id ? "base" : "optimism"}
+              onValueChange={(value) => {
+                if (value === "base") {
+                  switchChain({ chainId: base.id });
+                } else {
+                  switchChain({ chainId: optimism.id });
+                }
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a world" />
+              </SelectTrigger>
+              <SelectContent className="z-[9999]">
+                <SelectItem value="base">Base</SelectItem>
+                <SelectItem value="optimism">Optimism</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              onClick={() => {
+                writeContract({
+                  args: [address!],
+                });
+              }}
+            >
+              Start
+            </Button>
+          </div>
+        )}
         <div className="flex flex-col border flex-1 justify-center overflow-x-auto">
           {worlds?.map((world) => (
             <div key={world.id}>
