@@ -1,0 +1,53 @@
+const newVersion = process.argv[2];
+const chainId = process.argv[3];
+
+// Check if argument is present, throw error if not
+if (!newVersion) {
+  throw new Error("New Graph Version is required as an argument");
+}
+
+const Mustache = require("mustache");
+const fs = require("fs/promises");
+const { execSync } = require("child_process");
+
+const main = async () => {
+  // Loop over an array and deploy a subgraph for each network
+  let networks = [
+    {
+      startBlock: 32470433,
+      contractAddress: "0x39CdE2092a28e0A1Fc9b1A0217108cf6170E01eE",
+      network: "base",
+      graphName: "cww-base",
+      chainId: 8453,
+    },
+    {
+      startBlock: 138065718,
+      contractAddress: "0xD3687dD56A92cFF031E086B6537aAA2905EAcb7d",
+      network: "optimism",
+      graphName: "cww-opt",
+      chainId: 10,
+    },
+  ];
+
+  if (chainId) {
+    networks = networks.filter(
+      (network) => network.chainId === parseInt(chainId)
+    );
+  }
+
+  for (const network of networks) {
+    const confiTemplate = await fs.readFile("template.yaml", "utf8");
+
+    const filledConfig = Mustache.render(confiTemplate, network);
+
+    await fs.writeFile(`subgraph.yaml`, filledConfig);
+
+    // Execute the following command: graph deploy --studio <graphName>
+    // This command will deploy the subgraph to the graph studio
+    execSync(`graph deploy ${network.graphName} -l ${newVersion}`, {
+      stdio: "inherit",
+    });
+  }
+};
+
+main();
