@@ -41,9 +41,21 @@ class UniverseCreator {
 
   private generateBiomes(length: number, worldIndex: number): Biome[] {
     const biomes: Biome[] = [];
+    const bufferSize = 3;
+    const bufferGrowthRate = 10;
 
-    for (let position = 0; position < length; position++) {
-      const rate = this.calculateGrowthRate(worldIndex, position, length);
+    // Add buffer biomes at the start
+    for (let i = 0; i < bufferSize; i++) {
+      biomes.push({ growthRate: bufferGrowthRate });
+    }
+
+    // Generate the remaining biomes with the existing logic
+    for (let position = bufferSize; position < length; position++) {
+      const rate = this.calculateGrowthRate(
+        worldIndex,
+        position - bufferSize,
+        length - bufferSize
+      );
       biomes.push({ growthRate: rate });
     }
 

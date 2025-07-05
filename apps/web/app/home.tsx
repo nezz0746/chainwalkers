@@ -5,7 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { GameApi } from "../src/services/api";
 import chroma from "chroma-js";
 import { useEffect, useRef, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../src/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../src/components/ui/dialog";
 import { Button } from "../src/components/ui/button";
 
 const growingColor = "#00ff00";
@@ -54,7 +59,8 @@ export default function Home() {
             zIndex: 9999,
             width: "100vw",
             maxWidth: "28rem", // matches max-w-md
-            boxShadow: "0 8px 32px 0 rgba(139, 69, 19, 0.25), 0 1.5px 8px 0 rgba(212, 165, 116, 0.15)",
+            boxShadow:
+              "0 8px 32px 0 rgba(139, 69, 19, 0.25), 0 1.5px 8px 0 rgba(212, 165, 116, 0.15)",
             background: "linear-gradient(135deg, #fdf6e3 0%, #fbe7c6 100%)",
             margin: 0,
             padding: 20,
@@ -62,23 +68,35 @@ export default function Home() {
         >
           <DialogHeader>
             <DialogTitle className="text-2xl text-center font-extrabold text-yellow-900 drop-shadow-sm mb-2 tracking-wide">
-              Welcome to<br /><span className="text-orange-700">Chainwalkers Universe</span>
+              Welcome to
+              <br />
+              <span className="text-orange-700">Chainwalkers Universe</span>
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-5 text-center">
             <p className="text-base text-yellow-900 font-medium leading-relaxed">
-              Embark on a journey across the <span className="font-semibold text-orange-700">Chainwalkers Universe</span>!<br />
-              <span className="text-yellow-800">Explore biomes, grow your influence, and uncover the secrets of the desert.</span>
+              Embark on a journey across the{" "}
+              <span className="font-semibold text-orange-700">
+                Chainwalkers Universe
+              </span>
+              !<br />
+              <span className="text-yellow-800">
+                Explore biomes, grow your influence, and uncover the secrets of
+                the desert.
+              </span>
             </p>
             <ul className="text-left mx-auto max-w-xs text-sm list-disc list-inside text-yellow-800 space-y-1">
               <li>
-                <span className="font-semibold text-orange-700">Move</span> through biomes and watch them grow or decline.
+                <span className="font-semibold text-orange-700">Move</span>{" "}
+                through biomes and watch them grow or decline.
               </li>
               <li>
-                <span className="font-semibold text-orange-700">Connect</span> your wallet to interact with the world.
+                <span className="font-semibold text-orange-700">Connect</span>{" "}
+                your wallet to interact with the world.
               </li>
               <li>
-                <span className="font-semibold text-orange-700">Shape</span> the universe's fate with every decision.
+                <span className="font-semibold text-orange-700">Shape</span> the
+                universe's fate with every decision.
               </li>
             </ul>
             <br />
@@ -110,7 +128,12 @@ export default function Home() {
       {/* Main app content */}
       <div className="h-screen flex flex-col">
         {/* Hidden audio element for background music */}
-        <audio ref={audioRef} src="/desert.mp3" loop style={{ display: "none" }} />
+        <audio
+          ref={audioRef}
+          src="/desert.mp3"
+          loop
+          style={{ display: "none" }}
+        />
         {/* Navbar with ConnectKitButton */}
         <nav className="flex justify-between items-center p-4 border border-red-500">
           <div>
@@ -174,7 +197,11 @@ export default function Home() {
             pointerEvents: "auto",
           }}
         >
-          <span style={{ fontWeight: 700, color: "#e67e22" }}>Greetings, explorer!</span> Join us in the struggle for survival. Help others, grow stronger, and discover the crosschain secrets that bind our worlds.
+          <span style={{ fontWeight: 700, color: "#e67e22" }}>
+            Greetings, explorer!
+          </span>{" "}
+          Join us in the struggle for survival. Help others, grow stronger, and
+          discover the crosschain secrets that bind our worlds.
           {/* Bubble tail */}
           <span
             style={{

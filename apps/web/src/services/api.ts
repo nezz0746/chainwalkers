@@ -39,8 +39,8 @@ export class GameApi {
         chainWalkerWorldSdk(client)
           .worlds({
             first: 1,
-            worlds_biomes_orderBy: Biome_OrderBy.GrowthRate,
-            worlds_biomes_orderDirection: OrderDirection.Desc,
+            worlds_biomes_orderBy: Biome_OrderBy.Index,
+            worlds_biomes_orderDirection: OrderDirection.Asc,
             subgraphError: _SubgraphErrorPolicy_.Allow,
           })
           .then((res) =>

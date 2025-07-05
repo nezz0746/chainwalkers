@@ -5,6 +5,15 @@
       "chainId": 10,
       "biomes": [
         {
+          "growthRate": 10
+        },
+        {
+          "growthRate": 10
+        },
+        {
+          "growthRate": 10
+        },
+        {
           "growthRate": -25
         },
         {
@@ -65,7 +74,7 @@
           "growthRate": 27
         },
         {
-          "growthRate": -27
+          "growthRate": -28
         },
         {
           "growthRate": -28
@@ -83,7 +92,7 @@
           "growthRate": -31
         },
         {
-          "growthRate": -31
+          "growthRate": -32
         },
         {
           "growthRate": -32
@@ -146,7 +155,7 @@
           "growthRate": -45
         },
         {
-          "growthRate": -45
+          "growthRate": -46
         },
         {
           "growthRate": -46
@@ -185,16 +194,16 @@
           "growthRate": 16
         },
         {
-          "growthRate": -46
+          "growthRate": -47
         },
         {
-          "growthRate": -46
+          "growthRate": -47
         },
         {
-          "growthRate": -46
+          "growthRate": -47
         },
         {
-          "growthRate": -46
+          "growthRate": -47
         },
         {
           "growthRate": -46
@@ -224,19 +233,10 @@
           "growthRate": 19
         },
         {
-          "growthRate": 20
+          "growthRate": 19
         },
         {
-          "growthRate": 20
-        },
-        {
-          "growthRate": 20
-        },
-        {
-          "growthRate": 20
-        },
-        {
-          "growthRate": 20
+          "growthRate": 19
         },
         {
           "growthRate": 19
@@ -245,7 +245,13 @@
           "growthRate": 19
         },
         {
-          "growthRate": -48
+          "growthRate": 19
+        },
+        {
+          "growthRate": 19
+        },
+        {
+          "growthRate": 19
         },
         {
           "growthRate": -48
@@ -260,7 +266,7 @@
           "growthRate": -50
         },
         {
-          "growthRate": -51
+          "growthRate": -50
         },
         {
           "growthRate": -51
@@ -275,7 +281,7 @@
           "growthRate": -53
         },
         {
-          "growthRate": 16
+          "growthRate": -54
         },
         {
           "growthRate": 15
@@ -305,7 +311,7 @@
           "growthRate": 11
         },
         {
-          "growthRate": -61
+          "growthRate": 11
         },
         {
           "growthRate": -61
@@ -332,7 +338,10 @@
           "growthRate": -65
         },
         {
-          "growthRate": -65
+          "growthRate": -66
+        },
+        {
+          "growthRate": -66
         },
         {
           "growthRate": 8
@@ -365,34 +374,37 @@
           "growthRate": 8
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
+        },
+        {
+          "growthRate": 10
         },
         {
           "growthRate": 10
@@ -422,22 +434,13 @@
           "growthRate": 11
         },
         {
-          "growthRate": 11
-        },
-        {
-          "growthRate": -69
-        },
-        {
-          "growthRate": -69
-        },
-        {
           "growthRate": -70
         },
         {
           "growthRate": -70
         },
         {
-          "growthRate": -71
+          "growthRate": -70
         },
         {
           "growthRate": -71
@@ -455,7 +458,10 @@
           "growthRate": -73
         },
         {
-          "growthRate": 9
+          "growthRate": -73
+        },
+        {
+          "growthRate": -74
         },
         {
           "growthRate": 8
@@ -464,7 +470,7 @@
           "growthRate": 8
         },
         {
-          "growthRate": 7
+          "growthRate": 8
         },
         {
           "growthRate": 7
@@ -485,10 +491,10 @@
           "growthRate": 5
         },
         {
-          "growthRate": -80
+          "growthRate": 5
         },
         {
-          "growthRate": -80
+          "growthRate": -81
         },
         {
           "growthRate": -81
@@ -503,9 +509,6 @@
           "growthRate": -83
         },
         {
-          "growthRate": -83
-        },
-        {
           "growthRate": -84
         },
         {
@@ -515,7 +518,10 @@
           "growthRate": -85
         },
         {
-          "growthRate": 1
+          "growthRate": -85
+        },
+        {
+          "growthRate": -86
         },
         {
           "growthRate": 1
@@ -536,34 +542,16 @@
           "growthRate": 1
         },
         {
-          "growthRate": 1
+          "growthRate": 0
+        },
+        {
+          "growthRate": 0
+        },
+        {
+          "growthRate": 0
         },
         {
           "growthRate": 1
-        },
-        {
-          "growthRate": 1
-        },
-        {
-          "growthRate": -88
-        },
-        {
-          "growthRate": -88
-        },
-        {
-          "growthRate": -88
-        },
-        {
-          "growthRate": -88
-        },
-        {
-          "growthRate": -88
-        },
-        {
-          "growthRate": -88
-        },
-        {
-          "growthRate": -88
         },
         {
           "growthRate": -89
@@ -575,7 +563,25 @@
           "growthRate": -89
         },
         {
-          "growthRate": 2
+          "growthRate": -89
+        },
+        {
+          "growthRate": -89
+        },
+        {
+          "growthRate": -89
+        },
+        {
+          "growthRate": -89
+        },
+        {
+          "growthRate": -89
+        },
+        {
+          "growthRate": -90
+        },
+        {
+          "growthRate": -90
         },
         {
           "growthRate": 2
@@ -587,16 +593,10 @@
           "growthRate": 2
         },
         {
-          "growthRate": 3
+          "growthRate": 2
         },
         {
-          "growthRate": 3
-        },
-        {
-          "growthRate": 3
-        },
-        {
-          "growthRate": 3
+          "growthRate": 2
         },
         {
           "growthRate": 3
@@ -610,6 +610,15 @@
       "chainId": 8453,
       "biomes": [
         {
+          "growthRate": 10
+        },
+        {
+          "growthRate": 10
+        },
+        {
+          "growthRate": 10
+        },
+        {
           "growthRate": 25
         },
         {
@@ -656,9 +665,6 @@
         },
         {
           "growthRate": -25
-        },
-        {
-          "growthRate": -26
         },
         {
           "growthRate": -26
@@ -670,10 +676,13 @@
           "growthRate": -27
         },
         {
-          "growthRate": 27
+          "growthRate": -27
         },
         {
           "growthRate": 27
+        },
+        {
+          "growthRate": 26
         },
         {
           "growthRate": 26
@@ -700,7 +709,7 @@
           "growthRate": 23
         },
         {
-          "growthRate": -34
+          "growthRate": -35
         },
         {
           "growthRate": -35
@@ -715,7 +724,7 @@
           "growthRate": -38
         },
         {
-          "growthRate": -38
+          "growthRate": -39
         },
         {
           "growthRate": -39
@@ -763,13 +772,13 @@
           "growthRate": -46
         },
         {
-          "growthRate": -46
+          "growthRate": -47
         },
         {
-          "growthRate": -46
+          "growthRate": -47
         },
         {
-          "growthRate": -46
+          "growthRate": -47
         },
         {
           "growthRate": -47
@@ -829,12 +838,6 @@
           "growthRate": -46
         },
         {
-          "growthRate": -46
-        },
-        {
-          "growthRate": -46
-        },
-        {
           "growthRate": -47
         },
         {
@@ -845,6 +848,12 @@
         },
         {
           "growthRate": -47
+        },
+        {
+          "growthRate": -47
+        },
+        {
+          "growthRate": -48
         },
         {
           "growthRate": -48
@@ -874,13 +883,10 @@
           "growthRate": 17
         },
         {
-          "growthRate": 17
-        },
-        {
           "growthRate": 16
         },
         {
-          "growthRate": -54
+          "growthRate": 16
         },
         {
           "growthRate": -54
@@ -892,7 +898,7 @@
           "growthRate": -56
         },
         {
-          "growthRate": -57
+          "growthRate": -56
         },
         {
           "growthRate": -57
@@ -910,6 +916,9 @@
           "growthRate": -60
         },
         {
+          "growthRate": -61
+        },
+        {
           "growthRate": 11
         },
         {
@@ -919,9 +928,6 @@
           "growthRate": 10
         },
         {
-          "growthRate": 10
-        },
-        {
           "growthRate": 9
         },
         {
@@ -940,10 +946,7 @@
           "growthRate": 8
         },
         {
-          "growthRate": -66
-        },
-        {
-          "growthRate": -66
+          "growthRate": 8
         },
         {
           "growthRate": -66
@@ -961,13 +964,22 @@
           "growthRate": -67
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
         },
         {
-          "growthRate": -67
+          "growthRate": -68
+        },
+        {
+          "growthRate": -68
+        },
+        {
+          "growthRate": -68
+        },
+        {
+          "growthRate": 8
         },
         {
           "growthRate": 8
@@ -995,21 +1007,6 @@
         },
         {
           "growthRate": 10
-        },
-        {
-          "growthRate": 10
-        },
-        {
-          "growthRate": -67
-        },
-        {
-          "growthRate": -68
-        },
-        {
-          "growthRate": -68
-        },
-        {
-          "growthRate": -68
         },
         {
           "growthRate": -68
@@ -1030,7 +1027,16 @@
           "growthRate": -69
         },
         {
-          "growthRate": 11
+          "growthRate": -69
+        },
+        {
+          "growthRate": -69
+        },
+        {
+          "growthRate": -69
+        },
+        {
+          "growthRate": -69
         },
         {
           "growthRate": 11
@@ -1060,7 +1066,7 @@
           "growthRate": 9
         },
         {
-          "growthRate": -74
+          "growthRate": 9
         },
         {
           "growthRate": -74
@@ -1069,7 +1075,7 @@
           "growthRate": -75
         },
         {
-          "growthRate": -75
+          "growthRate": -76
         },
         {
           "growthRate": -76
@@ -1090,7 +1096,7 @@
           "growthRate": -79
         },
         {
-          "growthRate": 5
+          "growthRate": -80
         },
         {
           "growthRate": 4
@@ -1120,22 +1126,13 @@
           "growthRate": 2
         },
         {
-          "growthRate": -85
+          "growthRate": 1
         },
         {
           "growthRate": -86
         },
         {
           "growthRate": -86
-        },
-        {
-          "growthRate": -86
-        },
-        {
-          "growthRate": -87
-        },
-        {
-          "growthRate": -87
         },
         {
           "growthRate": -87
@@ -1150,6 +1147,27 @@
           "growthRate": -88
         },
         {
+          "growthRate": -88
+        },
+        {
+          "growthRate": -88
+        },
+        {
+          "growthRate": -88
+        },
+        {
+          "growthRate": -89
+        },
+        {
+          "growthRate": 1
+        },
+        {
+          "growthRate": 1
+        },
+        {
+          "growthRate": 1
+        },
+        {
           "growthRate": 1
         },
         {
@@ -1171,34 +1189,16 @@
           "growthRate": 2
         },
         {
-          "growthRate": 2
+          "growthRate": -90
         },
         {
-          "growthRate": 2
+          "growthRate": -90
         },
         {
-          "growthRate": 2
+          "growthRate": -90
         },
         {
-          "growthRate": -89
-        },
-        {
-          "growthRate": -89
-        },
-        {
-          "growthRate": -89
-        },
-        {
-          "growthRate": -89
-        },
-        {
-          "growthRate": -89
-        },
-        {
-          "growthRate": -89
-        },
-        {
-          "growthRate": -89
+          "growthRate": -90
         },
         {
           "growthRate": -90
