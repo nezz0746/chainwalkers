@@ -164,12 +164,10 @@ export default function Home() {
           <div>
             <h1>Chainwalkers Universe</h1>
           </div>
-          {chain && (
-            <div className="flex flex-row items-center gap-2">
-              <p>{chain.name}</p>
-              <ConnectKitButton />
-            </div>
-          )}
+          <div className="flex flex-row items-center gap-2">
+            {chain && <p>{chain.name}</p>}
+            <ConnectKitButton />
+          </div>
         </nav>
         {!me && (
           <div className="p-4 border border-black flex flex-row items-center gap-2">
