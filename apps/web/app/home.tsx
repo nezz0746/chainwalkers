@@ -152,148 +152,169 @@ export default function Home() {
         </DialogContent>
       </Dialog>
       {/* Main app content */}
-      <div className="h-screen flex flex-col">
-        {/* Hidden audio element for background music */}
-        <audio
-          ref={audioRef}
-          src="/desert.mp3"
-          loop
-          style={{ display: "none" }}
+      <div
+        className="h-screen flex flex-col relative"
+        style={{
+          backgroundImage: 'url(/desert-background.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        {/* Overlay - sits between background and content */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(0,0,0,0.35)',
+            zIndex: 1,
+            pointerEvents: 'none',
+          }}
         />
-        {/* Navbar with ConnectKitButton */}
-        <nav className="flex justify-between items-center p-4">
-          <div>
-            <h1>Chainwalkers Universe</h1>
-          </div>
-          <div className="flex flex-row items-center gap-2">
-            {chain && <p>{chain.name}</p>}
-            <ConnectKitButton />
-          </div>
-        </nav>
-        {!me && (
-          <div className="p-4 border border-black flex flex-row items-center gap-2">
-            <Select
-              value={chain?.id === base.id ? "base" : "optimism"}
-              onValueChange={(value) => {
-                if (value === "base") {
-                  switchChain({ chainId: base.id });
-                } else {
-                  switchChain({ chainId: optimism.id });
-                }
-              }}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select a world" />
-              </SelectTrigger>
-              <SelectContent className="z-[9999]">
-                <SelectItem value="base">Base</SelectItem>
-                <SelectItem value="optimism">Optimism</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button
-              onClick={() => {
-                writeContract({
-                  args: [address!],
-                });
-              }}
-            >
-              Start
-            </Button>
-          </div>
-        )}
-        <div className="flex flex-col border flex-1 justify-center overflow-x-auto">
-          {worlds?.map(({ id, chainId, players, biomes }) => {
-            const isMyWorld = id === me?.world.id;
-            return (
-              <div
-                key={id}
-                className={classNames({
-                  "opacity-35": !isMyWorld,
-                })}
+        {/* Main content (set zIndex > overlay) */}
+        <div style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
+          {/* Hidden audio element for background music */}
+          <audio
+            ref={audioRef}
+            src="/desert.mp3"
+            loop
+            style={{ display: "none" }}
+          />
+          {/* Navbar with ConnectKitButton */}
+          <nav className="flex justify-between items-center p-4">
+            <div>
+              <h1>Chainwalkers Universe</h1>
+            </div>
+            <div className="flex flex-row items-center gap-2">
+              {chain && <p>{chain.name}</p>}
+              <ConnectKitButton />
+            </div>
+          </nav>
+          {!me && (
+            <div className="p-4 border border-black flex flex-row items-center gap-2">
+              <Select
+                value={chain?.id === base.id ? "base" : "optimism"}
+                onValueChange={(value) => {
+                  if (value === "base") {
+                    switchChain({ chainId: base.id });
+                  } else {
+                    switchChain({ chainId: optimism.id });
+                  }
+                }}
               >
-                <p className="text-gray-500">
-                  Walker World: {truncateAddress(id)}
-                </p>
-                <div className="flex flex-row">
-                  {biomes.map(({ growthRate, id, index }) => {
-                    const color = growthRate > 0 ? growingColor : declineColor;
-                    const isSelected = selectedBiome?.id === id;
-                    const biomePlayers = players.filter(
-                      (p) => Number(p.currentPosition) === index
-                    );
-                    return (
-                      <div
-                        key={id}
-                        className={`w-50 relative h-50 aspect-square border cursor-pointer transition-all duration-200 ${
-                          isSelected
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a world" />
+                </SelectTrigger>
+                <SelectContent className="z-[9999]">
+                  <SelectItem value="base">Base</SelectItem>
+                  <SelectItem value="optimism">Optimism</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button
+                onClick={() => {
+                  writeContract({
+                    args: [address!],
+                  });
+                }}
+              >
+                Start
+              </Button>
+            </div>
+          )}
+          <div className="flex flex-col border flex-1 justify-center overflow-x-auto">
+            {worlds?.map(({ id, chainId, players, biomes }) => {
+              const isMyWorld = id === me?.world.id;
+              return (
+                <div
+                  key={id}
+                  className={classNames({
+                    // "opacity-35": !isMyWorld,
+                  })}
+                >
+                  <p className="text-gray-500">
+                    Walker World: {truncateAddress(id)}
+                  </p>
+                  <div className="flex flex-row">
+                    {biomes.map(({ growthRate, id, index }) => {
+                      const color = growthRate > 0 ? growingColor : declineColor;
+                      const isSelected = selectedBiome?.id === id;
+                      const biomePlayers = players.filter(
+                        (p) => Number(p.currentPosition) === index
+                      );
+                      return (
+                        <div
+                          key={id}
+                          className={`w-50 relative h-50 aspect-square border cursor-pointer transition-all duration-200 ${isSelected
                             ? "border-blue-500 border-4 shadow-lg"
                             : "border-black/5 hover:border-gray-400"
-                        }`}
-                        style={{ backgroundColor: color }}
-                        onClick={() => {
-                          setSelectedBiome({
-                            index,
-                            chainId,
-                            growthRate,
-                            id,
-                          });
-                        }}
-                      >
-                        <div className="absolute top-0 right-0">
-                          <p className="text-xs text-black">{growthRate}</p>
-                        </div>
-                        {biomePlayers.length > 0 && (
-                          <div className=" flex flex-col py-4 p-2 gap-2 items-center justify-center">
-                            {biomePlayers.map((p) => (
-                              <div className="flex flex-row gap-2 items-center justify-center">
-                                <p className="text-xs text-black">
-                                  {truncateAddress(p.id)}
-                                </p>
-                                <div className="flex flex-row gap-2 items-center justify-center border border-black/10 rounded-sm bg-white/30 p-1">
-                                  <UsersIcon className="w-4 h-4" />
-                                  <p className="text-xs text-black">
-                                    {p.currentPopulation}
-                                  </p>
+                            }`}
+                          style={{ backgroundColor: color }}
+                          onClick={() => {
+                            setSelectedBiome({
+                              index,
+                              chainId,
+                              growthRate,
+                              id,
+                            });
+                          }}
+                        >
+                          <div className="absolute top-0 right-0">
+                            <p className="text-xs text-black">{growthRate}</p>
+                          </div>
+                          {biomePlayers.length > 0 && (
+                            <div className=" flex flex-col py-4 p-2 gap-2 items-center justify-center">
+                              {biomePlayers.map((p) => (
+                                <div className="flex flex-col items-center gap-1" key={p.id}>
+                                  <img src="/group-of-people.png" alt="Group of people" className="w-[100px] h-[100px] mb-1 drop-shadow-md" />
+                                  <div className="flex flex-row items-center gap-1 bg-white rounded px-2 py-1 shadow">
+                                    <p className="text-xs text-black font-mono tracking-tight">
+                                      {truncateAddress(p.id)}
+                                    </p>
+                                    <span className="text-xs text-orange-700 font-bold ml-1">{p.currentPopulation}</span>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        {isSelected && (
-                          <div className="absolute bottom-0 left-0 flex flex-col p-2 gap-2 items-center justify-center">
-                            <div className="flex flex-col">
-                              <Button
-                                size="sm"
-                                onClick={() => {
-                                  writeSendHelp({
-                                    args: [address!, eids[chainId]!, "0x"],
-                                    value: quoteSendHelp?.nativeFee,
-                                  });
-                                }}
-                              >
-                                <SendIcon className="w-4 h-4" />
-                                Send Beacon
-                              </Button>
-                              <Button
-                                size="sm"
-                                onClick={() => {
-                                  writeMove({
-                                    args: [address!, BigInt(index)],
-                                  });
-                                }}
-                              >
-                                Move Here
-                              </Button>
+                              ))}
                             </div>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                          )}
+                          {isSelected && (
+                            <div className="absolute bottom-0 left-0 flex flex-col p-2 gap-2 items-center justify-center">
+                              <div className="flex flex-col">
+                                <Button
+                                  size="sm"
+                                  onClick={() => {
+                                    writeSendHelp({
+                                      args: [address!, eids[chainId]!, "0x"],
+                                      value: quoteSendHelp?.nativeFee,
+                                    });
+                                  }}
+                                >
+                                  <SendIcon className="w-4 h-4" />
+                                  Send Beacon
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  onClick={() => {
+                                    writeMove({
+                                      args: [address!, BigInt(index)],
+                                    });
+                                  }}
+                                >
+                                  Move Here
+                                </Button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
       {/* Hero character with speech bubble */}
