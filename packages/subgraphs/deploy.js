@@ -44,16 +44,24 @@ const main = async () => {
 
     await fs.writeFile(`subgraph.yaml`, filledConfig);
 
-    const getDeployCommand = () => {
+    const getAlchemyDeployCommand = () => {
       return `graph deploy ${network.graphName} \
   --version-label ${newVersion} \
   --node https://subgraphs.alchemy.com/api/subgraphs/deploy \
   --deploy-key ${network.deployKey} \
   --ipfs https://ipfs.satsuma.xyz`;
     };
+
+    const getTheGraphDeployCommand = () => {
+      return `graph deploy ${network.graphName} \
+  -l ${newVersion}`;
+    };
     // Execute the following command: graph deploy --studio <graphName>
     // This command will deploy the subgraph to the graph studio
-    execSync(getDeployCommand(), {
+    execSync(getAlchemyDeployCommand(), {
+      stdio: "inherit",
+    });
+    execSync(getTheGraphDeployCommand(), {
       stdio: "inherit",
     });
   }

@@ -12,9 +12,9 @@ const API_KEY = "9e5d68d46c8f27b3b1128cd2ad21e5db";
 
 const urls: Record<number, string> = {
   [base.id]:
-    "https://subgraph.satsuma-prod.com/541dfde21f82/nezzars-personnal--22386/cww-base/api",
+    "https://api.studio.thegraph.com/query/958/cww-base/version/latest",
   [optimism.id]:
-    "https://subgraph.satsuma-prod.com/541dfde21f82/nezzars-personnal--22386/cww-opt/api",
+    "https://api.studio.thegraph.com/query/958/cww-opt/version/latest",
 };
 
 export class GameApi {
@@ -27,6 +27,7 @@ export class GameApi {
         new GraphQLClient(url, {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${API_KEY}`,
           },
         }),
       ])

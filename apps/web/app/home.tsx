@@ -22,16 +22,21 @@ import {
 import { useAccount, useSwitchChain } from "wagmi";
 import { base, optimism } from "viem/chains";
 import {
+  useReadChainWalkerWorld,
   useWriteChainWalkerWorldMove,
+  useWriteChainWalkerWorldSendHelp,
   useWriteChainWalkerWorldStart,
 } from "@/generated";
-import useWaitForTransactionSuccess from "../src/hooks/useTransactionSucess";
-import { hexToBigInt } from "viem";
 import { truncateAddress } from "@/lib/utils";
-import { UserIcon, UsersIcon } from "lucide-react";
+import { SendIcon, UsersIcon } from "lucide-react";
 
 const growingColor = "#0eeeee";
 const declineColor = "#ff0000";
+
+const eids: Record<number, number> = {
+  [base.id]: 30111, // optimism eid (to call)
+  [optimism.id]: 30184, // optimism eid (to call)
+};
 
 export default function Home() {
   const { address, chain } = useAccount();
@@ -84,19 +89,14 @@ export default function Home() {
 
   const { writeContract } = useWriteChainWalkerWorldStart({});
 
-  const {
-    writeContract: writeMove,
-    data: moveData,
-    isPending,
-  } = useWriteChainWalkerWorldMove({});
-  const { isLoading: isLoadingMove } = useWaitForTransactionSuccess(
-    moveData,
-    () => {
-      refetchMe();
-      refetchWorlds();
-    }
-  );
-  const moveLoading = isPending || isLoadingMove;
+  const { writeContract: writeMove } = useWriteChainWalkerWorldMove({});
+
+  const { writeContract: writeSendHelp } = useWriteChainWalkerWorldSendHelp({});
+
+  const { data: quoteSendHelp } = useReadChainWalkerWorld({
+    functionName: "quoteSendHelp",
+    args: [eids[chain?.id!]!, address!, "0x"],
+  });
   return (
     <>
       {/* Modal for instructions and lore (moved outside flex container) */}
@@ -261,16 +261,30 @@ export default function Home() {
                         )}
                         {isSelected && (
                           <div className="absolute bottom-0 left-0 flex flex-col p-2 gap-2 items-center justify-center">
-                            <Button
-                              size="sm"
-                              onClick={() => {
-                                writeMove({
-                                  args: [address!, BigInt(index)],
-                                });
-                              }}
-                            >
-                              Move Here
-                            </Button>
+                            <div className="flex flex-col">
+                              <Button
+                                size="sm"
+                                onClick={() => {
+                                  writeSendHelp({
+                                    args: [address!, eids[chainId]!, "0x"],
+                                    value: quoteSendHelp?.nativeFee,
+                                  });
+                                }}
+                              >
+                                <SendIcon className="w-4 h-4" />
+                                Send Beacon
+                              </Button>
+                              <Button
+                                size="sm"
+                                onClick={() => {
+                                  writeMove({
+                                    args: [address!, BigInt(index)],
+                                  });
+                                }}
+                              >
+                                Move Here
+                              </Button>
+                            </div>
                           </div>
                         )}
                       </div>

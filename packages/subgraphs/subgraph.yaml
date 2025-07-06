@@ -1,6 +1,4 @@
 specVersion: 1.2.0
-indexerHints:
-  prune: auto
 schema:
   file: ./schema.graphql
 dataSources:
@@ -21,7 +19,6 @@ dataSources:
         - HelpReceived
         - HelpSent
         - OwnershipTransferred
-        - PeerSet
         - Traveled
       abis:
         - name: ChainWalkerWorld
@@ -37,8 +34,6 @@ dataSources:
           handler: handleHelpSent
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-        - event: PeerSet(uint32,bytes32)
-          handler: handlePeerSet
         - event: Traveled(indexed address,(uint256,uint256,uint256))
           handler: handleTraveled
       file: ./src/chain-walker-world.ts
