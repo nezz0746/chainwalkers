@@ -96,6 +96,19 @@ export function handleHelpReceived(event: HelpReceivedEvent): void {
   entity.biomePosition = event.params.biomePosition;
   entity.newGrowthRate = event.params.newGrowthRate;
 
+  const biome = Biome.load(
+    Bytes.fromUTF8(
+      event.address
+        .toHexString()
+        .concat("-")
+        .concat(event.params.biomePosition.toString())
+    )
+  );
+  if (biome) {
+    biome.growthRate = event.params.newGrowthRate;
+    biome.save();
+  }
+
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;
